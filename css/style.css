@@ -1,0 +1,42 @@
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.h-font {
+    font-family: 'Merienda', cursive;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.custom-bg{
+    background-color: #2ac1ac;
+    border: 1px solid #2ac1ac;
+}
+
+.custom-bg:hover{
+    background-color: #279e8c;
+    border-color:#279e8c ;
+}
+
+.availability-form{
+    margin-top: -50px;
+    z-index: 2;
+    position: relative;
+}
+
+@media screen and (max-width: 575px) {
+    .availability-form{
+        margin-top: 25px;
+        padding: 0 35px;
+    }
+}
