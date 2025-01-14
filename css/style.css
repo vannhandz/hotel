@@ -1,3 +1,10 @@
+:root{
+    --teal:#2ac1ac;
+    --teal_hover:#279e8c;
+}
+
+
+
 
 /* Firefox */
 input[type=number] {
@@ -19,13 +26,13 @@ input::-webkit-inner-spin-button {
 }
 
 .custom-bg{
-    background-color: #2ac1ac;
-    border: 1px solid #2ac1ac;
+    background-color: var(--teal) ;
+    border: 1px solid var(--teal);
 }
 
 .custom-bg:hover{
-    background-color: #279e8c;
-    border-color:#279e8c ;
+    background-color:var(--teal_hover) ;
+    border-color:var(--teal_hover) ;
 }
 
 .availability-form{
@@ -39,4 +46,19 @@ input::-webkit-inner-spin-button {
         margin-top: 25px;
         padding: 0 35px;
     }
+}
+
+.h-line{
+    width: 150px;
+    margin: 0 auto;
+    height: 2px;
+}
+
+.pop:hover{
+    border-top-color:var(--teal) !important;
+    transform: scale(1.05);
+    transition:all 0.3s;
+}
+.box{
+    border-top-color: var(--teal) !important;
 }
