@@ -1,0 +1,78 @@
+:root{
+    --teal:#2ac1ac;
+    --teal_hover:#279e8c;
+}
+
+
+
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.h-font {
+    font-family: 'Merienda', cursive;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.custom-bg{
+    background-color: var(--teal) ;
+    border: 1px solid var(--teal);
+}
+
+.custom-bg:hover{
+    background-color:var(--teal_hover) ;
+    border-color:var(--teal_hover) ;
+}
+
+.availability-form{
+    margin-top: -50px;
+    z-index: 2;
+    position: relative;
+}
+
+@media screen and (max-width: 575px) {
+    .availability-form{
+        margin-top: 25px;
+        padding: 0 35px;
+    }
+}
+
+.h-line{
+    width: 150px;
+    margin: 0 auto;
+    height: 2px;
+}
+
+.pop:hover{
+    border-top-color:var(--teal) !important;
+    transform: scale(1.05);
+    transition:all 0.3s;
+}
+.box{
+    border-top-color: var(--teal) !important;
+}
+
+div.login-form{
+    position: absolute ;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) ;
+    width: 400px;
+}
+
+.custom-alert{
+    position: fixed;
+    top: 25px;
+    right: 25px;
+}
