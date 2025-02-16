@@ -91,6 +91,9 @@
         }
     }
 
+   
+    
+
     function delete($sql, $values, $datatypes)
     {
         $con=$GLOBALS['con'];

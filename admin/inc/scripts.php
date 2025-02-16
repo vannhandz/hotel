@@ -13,11 +13,13 @@
             </div>
         `;
         document.body.append(element);
+        setTimeout(remAlert,1300);
     }
-</script>
 
+    function remAlert(){
+        document.getElementsByClassName("alert")[0].remove();
+    }
 
-<script>
     function setActive()
     {
         let navbar =document.getElementById('dashboard-menu');
