@@ -1,0 +1,16 @@
+{
+    "name": "vannhan/doan",
+    "description": "A project for managing room bookings.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Van Nhan",
+            "email": "nhan@example.com"
+        }
+    ],
+    "require": {
+        "paypal/rest-api-sdk-php": "^1.0",
+        "mpdf/mpdf": "^8.2"
+    }
+}

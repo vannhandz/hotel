@@ -59,7 +59,7 @@ function upd_general(site_title_val, site_about_val) {
             alert('success', 'Changes saved!');
             get_general();
         } else {
-            alert('error', 'No changes made!');
+            alert('error', 'Máy chủ ngừng hoạt động!');
         }
     }
 
@@ -146,7 +146,7 @@ function upd_contacts(){
             alert('success', 'Change saved!');
             get_contacts();
         } else {
-            alert('error', 'No change made!');
+            alert('error', 'Máy chủ ngừng hoạt động!');
         }
         get_general();
     }
@@ -214,7 +214,7 @@ function rem_member(val){
             alert('success','Xoá thành công');
             get_members()
         }else{
-            alert('error','Lỗi Server');
+            alert('error','Máy chủ ngừng hoạt động!');
         }
     }
 

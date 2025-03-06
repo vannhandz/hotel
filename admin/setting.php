@@ -83,7 +83,7 @@ adminLogin();
                             </div>
                         </div>
                         <p class="card-text">
-                            No customer will be allowed to book hotel room, when shutdown mode is turned on.
+                          Không khách hàng nào được phép đặt phòng khách sạn khi chế độ tắt máy được bật.
                         </p>
                     </div>
                 </div>

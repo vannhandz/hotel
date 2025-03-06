@@ -1,17 +1,7 @@
-<?php
-    require('admin/inc/db_config.php');
-    require('admin/inc/esentials.php');
-    $contact_q="SELECT * FROM `contact_details` WHERE `id_contact`=?";
-    $values=[1];
-    $contact_r=mysqli_fetch_assoc(select($contact_q,$values,'i'));
-
-?>
-
-
 <!-- navbar -->
 <nav id="nav-bar" class="navbar navbar-expand-lg navbar-light bg-white px-lg-3 py-lg-2 shadow-sm sticky-top">
     <div class="container-fluid">
-        <a class="navbar-brand me-5 fw-bold fs-3 h-font" href="index.php">HOTEL</a>
+        <a class="navbar-brand me-5 fw-bold fs-3 h-font" href="index.php"><?php echo $settings_r['site_title'] ?></a>
         <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
             aria-label="Toggle navigation">
@@ -20,7 +10,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link  me-2"href="index.php">Home</a>
+                    <a class="nav-link  me-2" href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link me-2" href="rooms.php">Rooms</a>
@@ -36,14 +26,33 @@
                 </li>
             </ul>
             <div class="d-flex">
-                <button type="button" class="btn btn-outline-dark shadow-none me-lg-3 me-2" data-bs-toggle="modal"
-                    data-bs-target="#loginModal">
-                    Login
-                </button>
-                <button type="button" class="btn btn-outline-dark shadow-none me-lg-3 me-3" data-bs-toggle="modal"
-                    data-bs-target="#registerModal">
-                    Register
-                </button>
+                <?php
+                if (isset($_SESSION['login']) && $_SESSION['login'] == true) {
+                    $path = USERS_IMG_PATH;
+                    echo <<<data
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-outline-dark shadow-none dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                                    <img src="images/users/user.svg" style="width: 25px; height: 25px;" class="me-1">
+                                    $_SESSION[uName]
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-lg-end">
+                                    <li><a class="dropdown-item" href="profile.php">Profile</a></li>
+                                    <li><a class="dropdown-item" href="bookings.php">Bookings</a></li>
+                                    <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+                                </ul>
+                            </div>
+                        data;
+                } else {
+                    echo <<<data
+                            <button type="button" class="btn btn-outline-dark shadow-none me-lg-3 me-2" data-bs-toggle="modal"data-bs-target="#loginModal">
+                                Login
+                            </button>
+                            <button type="button" class="btn btn-outline-dark shadow-none me-lg-3 me-3" data-bs-toggle="modal"data-bs-target="#registerModal">
+                                Register
+                            </button>
+                        data;
+                }
+                ?>
             </div>
         </div>
     </div>
@@ -54,7 +63,7 @@
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="">
+            <form id="login-form">
                 <div class="modal-header">
                     <h5 class="modal-title d-flex align-items-center"><i class="bi bi-person-circle fs-3 me-2"></i>User
                         Login</h5>
@@ -63,17 +72,23 @@
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label class="form-label">Email address</label>
-                        <input type="email" class="form-control shadow-none">
+                        <label class="form-label">Email / Mobile</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                            <input type="text" name="email_mob" required class="form-control shadow-none"
+                                placeholder="Enter email or mobile">
+                        </div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Password</label>
-                        <input type="password" class="form-control shadow-none">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                            <input type="password" name="pass" required class="form-control shadow-none"
+                                placeholder="Enter password">
+                        </div>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-2">
-                        <button type="submit" class="btn btn-dark shadow-none">LOGIN</button>
-                        <a href="javascript: void(0)" class="text-secondary text-decoration-none">Forgot
-                            Password</a>
+                        <button type="submit" class="btn btn-primary shadow-none rounded-pill px-4 py-2">LOGIN</button>
                     </div>
                 </div>
             </form>
@@ -86,7 +101,7 @@
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="">
+            <form id="register-form">
                 <div class="modal-header">
                     <h5 class="modal-title d-flex align-items-center"><i class="bi bi-person-plus fs-3 me-2"></i>User
                         Register</h5>
@@ -95,47 +110,47 @@
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-6 ps-0 mb-3">
-                                <label class="form-label">Name</label>
-                                <input type="text" class="form-control shadow-none">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                    <input name="name" type="text" class="form-control shadow-none"
+                                        placeholder="Full Name" required>
+                                </div>
                             </div>
-                            <div class="col-md-6 p-0 mb-3">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control shadow-none">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                    <input name="email" type="email" class="form-control shadow-none"
+                                        placeholder="Email Address" required>
+                                </div>
                             </div>
-                            <div class="col-md-6 ps-0 mb-3">
-                                <label class="form-label">Phone Number</label>
-                                <input type="number" class="form-control shadow-none">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-phone"></i></span>
+                                    <input name="phonenum" type="number" class="form-control shadow-none"
+                                        placeholder="Phone Number" required>
+                                </div>
                             </div>
-                            <div class="col-md-6 p-0 mb-3">
-                                <label class="form-label">Picture</label>
-                                <input type="file" class="form-control shadow-none">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                    <input name="pass" type="password" class="form-control shadow-none"
+                                        placeholder="Password" required>
+                                </div>
                             </div>
-                            <div class="col-md-12 p-0 mb-3">
-                                <label class="form-label">Address</label>
-                                <textarea class="form-control shadow-none" rows="1"></textarea>
-                            </div>
-                            <div class="col-md-6 ps-0 mb-3">
-                                <label class="form-label">Pincode</label>
-                                <input type="number" class="form-control shadow-none">
-                            </div>
-                            <div class="col-md-6 p-0 mb-3">
-                                <label class="form-label">Date of birth</label>
-                                <input type="date" class="form-control shadow-none">
-                            </div>
-                            <div class="col-md-6 ps-0 mb-3">
-                                <label class="form-label">Password</label>
-                                <input type="password" class="form-control shadow-none">
-                            </div>
-                            <div class="col-md-6 p-0 mb-3">
-                                <label class="form-label">Comfirm Password</label>
-                                <input type="password" class="form-control shadow-none">
+                            <div class="col-12">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                                    <input name="cpass" type="password" class="form-control shadow-none"
+                                        placeholder="Confirm Password" required>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="text-center my-1">
-                        <button type="submit" class="btn btn-dark shadow-none">REGISTER</button>
+                        <div class="text-center mt-3">
+                            <button type="submit"
+                                class="btn btn-primary shadow-none rounded-pill px-4 py-2">REGISTER</button>
+                        </div>
                     </div>
                 </div>
             </form>

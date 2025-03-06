@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Facilities</title>
     <?php require('inc/link.php') ?>
     <link rel="stylesheet" href="css/style.css">
+    <title><?php echo $settings_r['site_title'] ?> FACILITIES</title>
 </head>
 
 <body class="bg-light">

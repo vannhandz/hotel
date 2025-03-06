@@ -7,6 +7,8 @@
     define('ABOUT_IMG_PATH',SITE_URL.'images/about/');
     define('CAROUSEL_IMG_PATH',SITE_URL.'images/carousel/');
     define('FACILITIES_IMG_PATH',SITE_URL.'images/facilities/');
+    define('ROOMS_IMG_PATH',SITE_URL.'images/rooms/');
+    define('USERS_IMG_PATH',SITE_URL.'images/users/');
 
 
     //backend
@@ -14,6 +16,12 @@
     define('ABOUT_FOLDER','about/');
     define('CAROUSEL_FOLDER','carousel/');
     define('FACILITIES_FOLDER','facilities/');
+    define('ROOMS_FOLDER','rooms/');
+    define('USERS_FOLDER','users/');
+    define('SENDGRID_API_KEY', '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');
+    define('SENDGRID_EMAIL', "mohdrazi8687@gmail.com");
+    define('SENDGRID_NAME', "TJ WEDEV");
+
     function adminLogin()
     {
         session_start();
@@ -88,7 +96,6 @@
         }
     }
 
-
     function uploadSVGImage($image, $folder)
     {
         if (empty($image['name'])) {
@@ -118,6 +125,37 @@
                 return $rname; // Upload thành công
             } else {
                 return 'upd_failed'; // Upload thất bại
+            }
+        }
+    }
+
+    function uploadUserImage($image)
+    {
+        $valid_mime = ['image/jpeg', 'image/png', 'image/webp'];
+        $img_mime = $image['type'];
+
+        if (!in_array($img_mime, $valid_mime)) {
+            return 'inv_img'; // invalid image mime or format
+        } else {
+            $ext = pathinfo($image['name'], PATHINFO_EXTENSION);
+            $rname = 'IMG_' . random_int(11111, 99999) . ".jpeg";
+
+            $img_path = UPLOAD_IMAGE_PATH . USERS_FOLDER . $rname;
+
+
+            if ($ext == 'png' || $ext == 'PNG') {
+                $img = imagecreatefrompng($image['tmp_name']);
+            } else if ($ext == 'webp' || $ext == 'WEBP') {
+                $img = imagecreatefromwebp($image['tmp_name']);
+            } else {
+                $img = imagecreatefromjpeg($image['tmp_name']);
+            }
+
+
+            if (imagejpeg($img, $img_path, 75)) {
+                return $rname;
+            } else {
+                return 'upd_failed';
             }
         }
     }

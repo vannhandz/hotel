@@ -61,7 +61,7 @@ function rem_image(val){
             alert('success','Xoá thành công');
             get_carousel()
         }else{
-            alert('error','Lỗi Server');
+            alert('error','Máy chủ ngừng hoạt động!');
         }
     }
 
