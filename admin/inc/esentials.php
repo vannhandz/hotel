@@ -18,7 +18,6 @@
     define('FACILITIES_FOLDER','facilities/');
     define('ROOMS_FOLDER','rooms/');
     define('USERS_FOLDER','users/');
-   
 
     function adminLogin()
     {
