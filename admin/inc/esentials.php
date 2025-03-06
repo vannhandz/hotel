@@ -18,9 +18,7 @@
     define('FACILITIES_FOLDER','facilities/');
     define('ROOMS_FOLDER','rooms/');
     define('USERS_FOLDER','users/');
-    define('SENDGRID_API_KEY', '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');
-    define('SENDGRID_EMAIL', "mohdrazi8687@gmail.com");
-    define('SENDGRID_NAME', "TJ WEDEV");
+   
 
     function adminLogin()
     {
