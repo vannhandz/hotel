@@ -73,11 +73,11 @@
     {
         $frm_data = filteration($_POST);
 
-        $query = "UPDATE `booking_order` bo SET bo.arrival = ?, bo.room_no = ?  WHERE bo.booking_id = ?";
+        $query = "UPDATE `booking_order` bo SET bo.arrival = ?,bo.rate_review=?, bo.room_no = ?  WHERE bo.booking_id = ?";
 
-        $values = [1,$frm_data['room_no'], $frm_data['booking_id']];
+        $values = [1,0,$frm_data['room_no'], $frm_data['booking_id']];
 
-        $res = update($query, $values, 'isi');
+        $res = update($query, $values, 'iisi');
 
         echo ($res==true) ? 1 : 0;
     }

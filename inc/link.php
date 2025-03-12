@@ -7,6 +7,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 <link rel="stylesheet" href="css/style.css">
 
     
@@ -14,6 +15,7 @@
     session_start();
     require('admin/inc/db_config.php');
     require('admin/inc/esentials.php');
+    
     $contact_q="SELECT * FROM `contact_details` WHERE `id_contact`=?";
     $settings_q="SELECT * FROM `settings` WHERE `id_setting`=?";
     $values=[1];
