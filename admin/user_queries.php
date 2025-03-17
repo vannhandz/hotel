@@ -112,7 +112,7 @@
                                                     <td>$row[email]</td>
                                                     <td>$row[subject]</td>
                                                     <td>$row[message]</td>
-                                                    <td>$row[date]</td>
+                                                    <td>$row[datentime]</td>
                                                     <td>$seen</td>
                                                 </tr>
                                             query;
