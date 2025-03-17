@@ -52,6 +52,7 @@
     </div>
 
     <?php require('inc/footer.php') ?>
+    <?php require('chat.php') ?>
 
 </body>
 

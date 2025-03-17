@@ -106,6 +106,7 @@
 
              
     <?php require('inc/footer.php') ?>
+    <?php require('chat.php') ?>
     <?php
         if(isset($_POST['send']))
         {
@@ -121,7 +122,7 @@
             }
         } 
     ?>
-      
+   
 
 </body>
 

@@ -355,6 +355,9 @@
         
         <script src="js/main.js"></script>
 
+        <?php require('chat.php') ?>
+    
+
 </body>
 
 </html>

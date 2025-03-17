@@ -167,6 +167,7 @@
     ?>
 
     <?php require('inc/footer.php') ?>
+    <?php require('chat.php') ?>
 
     <script>
     function cancel_booking(id)
