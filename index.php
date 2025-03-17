@@ -86,7 +86,7 @@
 
         <h2 class="mt-5 pt-4 mb-4 text-center fm-bold h-font">OUR ROOMS</h2>
         <div class="container">
-            <div class="row">
+            <div class="row justify-content-center">
                 <?php
                 $room_res = select("SELECT * FROM `rooms` WHERE `status`=? AND `removed`=? ORDER BY `id` DESC LIMIT 3 ", [1, 0], 'ii');
 
@@ -161,10 +161,10 @@
                     // print romm
                 
                     echo <<<data
-                        <div class="col-lg-4 col-md-6 my-3">
-                            <div class="card border-0 shadow" style="max-width: 350px; margin:auto;">
-                                <img src="$room_thumb" class="card-img-top" hight="100px">
-                                <div class="card-body">
+                        <div class="col-lg-4 col-md-6 my-3 d-flex align-items-stretch">
+                            <div class="card border-0 shadow h-100" style="width: 100%;">
+                                <img src="$room_thumb" class="card-img-top" style="height: 200px; object-fit: cover;">
+                                <div class="card-body d-flex flex-column">
                                     <h5>$room_data[name]</h5>
                                     <h6 class="mb-4">
                      data;
@@ -192,7 +192,7 @@
                                         </span>
                                     </div>
                                      $rating_data
-                                    <div class="d-flex justify-content-evenly mb-2">
+                                    <div class="d-flex justify-content-evenly mt-auto mb-2">
                                         $book_btn
                                         <a href="room_details.php?id=$room_data[id]" class="btn btn-sm btn-outline-dark shadow-none">More details</a>
                                     </div>
@@ -241,55 +241,106 @@
 
         <h2 class="mt-5 pt-4 mb-4 text-center fm-bold h-font">TESTIMONIALS</h2>
         <div class="container mt-5">
-            <div class="swiper swiper-testimonials">
-                <div class="swiper-wrapper mb-5">
+            <!-- Điều chỉnh container để nhỏ hơn và tập trung hơn -->
+            <div class="col-lg-10 col-md-12 mx-auto">
+                <div class="swiper swiper-testimonials testimonials-container" style="width: 100%; overflow: hidden; padding: 20px 0;">
+                    <div class="swiper-wrapper mb-5">
 
-                    <?php
+                        <?php
 
-                        $review_q = "SELECT rr.*,uc.name AS uname, r.name AS rname FROM `rating_review` rr
-                                            INNER JOIN `user_cred` uc ON rr.user_id = uc.id
-                                            INNER JOIN `rooms` r ON rr.room_id = r.id
-                                            ORDER BY `sr_no` DESC LIMIT 6";
+                            $review_q = "SELECT rr.*,uc.name AS uname, r.name AS rname FROM `rating_review` rr
+                                        INNER JOIN `user_cred` uc ON rr.user_id = uc.id
+                                        INNER JOIN `rooms` r ON rr.room_id = r.id
+                                        ORDER BY `sr_no` DESC LIMIT 6";
 
-                        $review_res = mysqli_query($con, $review_q);
-                        $img_path = USERS_IMG_PATH;
+                            $review_res = mysqli_query($con, $review_q);
+                            $img_path = USERS_IMG_PATH;
 
-                        if(mysqli_num_rows($review_res) == 0){
-                            echo 'Chưa có đánh giá nào.';
-                        }else
-                        {
-                            while($row = mysqli_fetch_assoc($review_res))
+                            if(mysqli_num_rows($review_res) == 0){
+                                echo 'Chưa có đánh giá nào.';
+                            }else
                             {
-                                $stars = "<i class='bi bi-star-fill text-warning'></i>";
-                                for($i=1; $i<$row['rating']; $i++){
-                                    $stars .= "<i class='bi bi-star-fill text-warning'></i>";
+                                while($row = mysqli_fetch_assoc($review_res))
+                                {
+                                    $stars = "<i class='bi bi-star-fill text-warning'></i>";
+                                    for($i=1; $i<$row['rating']; $i++){
+                                        $stars .= "<i class='bi bi-star-fill text-warning'></i>";
+                                    }
+                                    echo <<<slides
+                                        <div class="swiper-slide">
+                                            <div class="card border-0 shadow-sm overflow-hidden" style="border-radius: 12px; height: 250px;">
+                                                <div class="card-body p-4">
+                                                    <div class="profile d-flex align-items-center mb-3">
+                                                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; overflow: hidden;">
+                                                            <img src="images/users/user.svg" loading="lazy" width="30px">
+                                                        </div>
+                                                        <h6 class="m-0 ms-2 fw-bold">$row[uname]</h6>
+                                                    </div>
+                                                    <p class="card-text" style="font-size: 0.9rem; height: 80px; overflow-y: auto;">
+                                                        $row[review]
+                                                    </p>
+                                                    <div class="rating d-flex align-items-center mt-3">
+                                                        <span class="text-muted me-2" style="font-size: 0.85rem;">Rating:</span>
+                                                        <span class="text-warning">$stars</span>
+                                                    </div>
+                                                    <small class="text-muted d-block mt-2">Room: $row[rname]</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    slides;
                                 }
-                                echo <<<slides
-                                    <div class="swiper-slide bg-white p-4">
-                                        <div class="profile d-flex align-items-center mb-3">
-                                            <img src="images/users/user.svg" loading="lazy" width="30px">
-                                            <h6 class="m-0 ms-2">$row[uname]</h6>
-                                        </div>
-                                        <p>
-                                            $row[review]
-                                        </p>
-                                        <div class="rating">
-                                           $stars   
-                                        </div>
-                                    </div>
-                                slides;
                             }
-                        }
-                    ?>
+                        ?>
+                    </div>
+                    <div class="swiper-pagination"></div>
                 </div>
-                <div class="swiper-pagination"></div>
             </div>
-            <div class="col-lg-12 text-center mt-5">
+            <div class="col-lg-12 text-center mt-4">
                 <a href="about.php" class="btn btn-sm btn-outline-dark rounded-0 fw-bold shadow-none">Know More
                     >>></a>
             </div>
         </div>
 
+        <!-- Thay thế script cấu hình Swiper -->
+        <script>
+            // Đảm bảo đợi cho Swiper script tải xong
+            window.addEventListener('load', function() {
+                // Đặt timeout ngắn để đảm bảo Swiper đã được khởi tạo
+                setTimeout(function() {
+                    var testimonialSwiper = new Swiper('.swiper-testimonials', {
+                        slidesPerView: 3,
+                        spaceBetween: 30,
+                        centeredSlides: false,
+                        loop: true,
+                        speed: 800,
+                        autoplay: {
+                            delay: 3500,
+                            disableOnInteraction: false,
+                        },
+                        effect: 'slide',
+                        pagination: {
+                            el: '.swiper-pagination',
+                            clickable: true,
+                            dynamicBullets: true,
+                        },
+                        breakpoints: {
+                            0: {
+                                slidesPerView: 1,
+                                spaceBetween: 20,
+                            },
+                            768: {
+                                slidesPerView: 2,
+                                spaceBetween: 20,
+                            },
+                            1024: {
+                                slidesPerView: 3,
+                                spaceBetween: 30,
+                            }
+                        }
+                    });
+                }, 100);
+            });
+        </script>
 
         <!-- reach us -->
 
