@@ -1,43 +1,102 @@
-<!-- footer -->
-<div class="container-fluid bg-white mt-5">
-    <div class="row">
-        <div class="col-lg-4 p-4">
-            <h3 class="h-font fw-bold fs-3 mb-2"><?php echo $settings_r['site_title'] ?></h3>
-            <p>
-                <?php echo $settings_r['site_about'] ?>
-            </p>
+<!-- Footer -->
+<footer class="footer mt-5 py-5 <?php echo (strpos($_SERVER['PHP_SELF'], 'rooms.php') !== false) ? 'footer-compact' : ''; ?>" style="background-color: #f8f9fa;">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <h3 class="h-font fw-bold mb-4"><?php echo $settings_r['site_title'] ?></h3>
+                <p class="mb-4 text-muted">
+                    <?php echo $settings_r['site_about'] ?>
+                </p>
+                <div class="d-flex gap-3">
+                    <?php 
+                        if($contact_r['tw']!=''){
+                            echo<<<data
+                                <a href="$contact_r[tw]" class="social-icon" target="_blank">
+                                    <i class="bi bi-twitter fs-5"></i>
+                                </a>
+                            data;
+                        }
+                    ?>
+                    <a href="<?php echo $contact_r['fb'] ?>" class="social-icon" target="_blank">
+                        <i class="bi bi-facebook fs-5"></i>
+                    </a>
+                    <a href="<?php echo $contact_r['insta'] ?>" class="social-icon" target="_blank">
+                        <i class="bi bi-instagram fs-5"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <h5 class="mb-4 fw-bold">Liên Kết Nhanh</h5>
+                <div class="d-flex flex-column gap-2">
+                    <a href="index.php" class="footer-link">
+                        <i class="bi bi-chevron-right me-2"></i>Trang Chủ
+                    </a>
+                    <a href="rooms.php" class="footer-link">
+                        <i class="bi bi-chevron-right me-2"></i>Phòng
+                    </a>
+                    <a href="facilities.php" class="footer-link">
+                        <i class="bi bi-chevron-right me-2"></i>Tiện Nghi
+                    </a>
+                    <a href="contact.php" class="footer-link">
+                        <i class="bi bi-chevron-right me-2"></i>Liên Hệ
+                    </a>
+                    <a href="about.php" class="footer-link">
+                        <i class="bi bi-chevron-right me-2"></i>Giới Thiệu
+                    </a>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <h5 class="mb-4 fw-bold">Liên Hệ Với Chúng Tôi</h5>
+                <div class="d-flex flex-column gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="contact-icon">
+                            <i class="bi bi-geo-alt-fill"></i>
+                        </div>
+                        <span><?php echo $contact_r['address'] ?></span>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="contact-icon">
+                            <i class="bi bi-telephone-fill"></i>
+                        </div>
+                        <span>+<?php echo $contact_r['pn1'] ?></span>
+                    </div>
+                    <?php
+                        if ($contact_r['pn2'] != '') {
+                            echo <<<data
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="contact-icon">
+                                        <i class="bi bi-phone-fill"></i>
+                                    </div>
+                                    <span>+$contact_r[pn2]</span>
+                                </div>
+                            data;
+                        }
+                    ?>
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="contact-icon">
+                            <i class="bi bi-envelope-fill"></i>
+                        </div>
+                        <span><?php echo $contact_r['email'] ?></span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-4 p-4">
-            <h5 class="mb-3">Liên Kết</h5>
-            <a href="index.php" class="d-inline-block mb-2 text-dark text-decoration-none">Trang Chủ</a><br>
-            <a href="rooms.php" class="d-inline-block mb-2 text-dark text-decoration-none">Phòng</a><br>
-            <a href="facilities.php" class="d-inline-block mb-2 text-dark text-decoration-none">Tiện Nghi</a><br>
-            <a href="contact.php" class="d-inline-block mb-2 text-dark text-decoration-none">Liên Hệ</a><br>
-            <a href="about.php" class="d-inline-block mb-2 text-dark text-decoration-none">Giới Thiệu</a>
-        </div>
-        <div class="col-lg-4 p-4">
-            <h5 class="mb-3">Mạng Xã Hội</h5>
-            <?php 
-                if($contact_r['tw']!=''){
-                    echo<<<data
-                        <a href=" $contact_r[tw]" class="d-inline-block mb-2 text-dark text-decoration-none">
-                            <i class="bi bi-twitter me-1"></i>Twitter
-                        </a>
-                    data;
-                }
-            ?>
-            <br>
-            <a href="<?php echo $contact_r['fb'] ?>" class="d-inline-block mb-2 text-dark text-decoration-none">
-                <i class="bi bi-facebook me-1"></i>FaceBook
-            </a><br>
-            <a href="<?php echo $contact_r['insta'] ?>" class="d-inline-block text-dark text-decoration-none">
-                <i class="bi bi-instagram me-1"></i>Instagrams
-            </a><br>
+    </div>
+</footer>
+
+<div class="copyright py-3" style="background-color: var(--dark-text);">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <p class="text-white mb-0">
+                    &copy; <?php echo date('Y'); ?> <?php echo $settings_r['site_title'] ?> - Code Thu Hoa Tien
+                </p>
+            </div>
         </div>
     </div>
 </div>
-
-<h6 class="text-center bg-dark text-white p-3 m-0">Code Thu Hoa Tien</h6>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -45,7 +104,6 @@
 </script>
 
 <script>
-
     function alert(type, msg,position='body') {
         let bs_class = (type == 'success') ? 'alert-success' : 'alert-danger ';
         let element = document.createElement('div');
