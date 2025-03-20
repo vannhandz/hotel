@@ -94,7 +94,7 @@ try {
                             }
                         }).then((result) => {
                             if (result.isConfirmed) {
-                               window.location.href = "http://localhost:3000/index.php";
+                                 window.location.href = "../index.php";
                             }
                         });
                     </script>

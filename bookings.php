@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php require('inc/link.php') ?>
     <link rel="stylesheet" href="css/style.css">
-    <title><?php echo $settings_r['site_title'] ?> BOOKINGS</title>
+    <link rel="stylesheet" href="css/bookings.css">
+    <title><?php echo $settings_r['site_title'] ?> - Đặt Phòng</title>
 </head>
 
 <body class="bg-light">
@@ -19,20 +20,27 @@
         }
     ?>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-12 my-5 px-4">
-                <h2 class="fw-bold">Đặt Phòng</h2>
-                <div style="font-size:14px">
-                    <a href="index.php" class="text-secondary text-decoration-none">Trang Chủ</a>
-                    <span class="text-secondary"> > </span>
-                    <a href="#" class="text-secondary text-decoration-none">Đặt Phòng</a>
+    <!-- Page Header Banner -->
+    <div class="page-header-banner">
+        <div class="container">
+            <h1 class="text-center text-white">Đặt Phòng Của Tôi</h1>
+            <div class="header-line"></div>
+            <div class="breadcrumb-container">
+                <div class="breadcrumb-pill">
+                    <a href="index.php">Trang Chủ</a>
+                    <span class="divider">/</span>
+                    <span class="current">Đặt Phòng</span>
                 </div>
             </div>
+        </div>
+    </div>
 
+    <div class="container booking-container">
+        <div class="row">
             <?php 
                 $query="SELECT * FROM `booking_order` bo 
                     INNER JOIN `user_cred` u ON bo.user_id = u.id
+                    INNER JOIN `rooms` r ON bo.room_id = r.id
                     WHERE ((bo.booking_status='booked') 
                     OR (bo.booking_status='cancelled') 
                     OR (bo.booking_status='refunded'))
@@ -41,12 +49,19 @@
 
                 $result=select($query,[$_SESSION['uId']],'i');
 
+                if(mysqli_num_rows($result) == 0) {
+                    echo '<div class="col-12 text-center py-5">
+                        <i class="bi bi-calendar-x" style="font-size: 5rem; color: #ccc;"></i>
+                        <h3 class="mt-3">Bạn chưa có đơn đặt phòng nào</h3>
+                        <a href="rooms.php" class="btn btn-sm btn-outline-dark mt-3">Xem Phòng</a>
+                    </div>';
+                }
+
                 while ($data=mysqli_fetch_assoc($result)){
 
                     $date = date("d-m-Y", strtotime($data['booking_date']));
                     $checkin = date("d-m-Y", strtotime($data['check_in']));
                     $checkout = date("d-m-Y", strtotime($data['check_out']));
-
 
                     $status_bg = "";
                     $btn = "";
@@ -56,16 +71,18 @@
                         $status_bg = "bg-success";
                         if ($data['arrival'] == 1)
                         {
-
-                            $btn = "<a href='generate_pdf.php?gen_pdf&id=$data[booking_id]' class='btn btn-dark btn-sm shadow-none'>Download PDF </a>
-                            ";
-                            if ($data['rate_review'] == 0) {
-                                $btn .= "<button type='button' onclick='review_room($data[booking_id], $data[room_id])' data-bs-toggle='modal' data-bs-target='#reviewModal' class='btn btn-dark btn-sm shadow-none ms-2'>Xếp Hạng & Đánh Giá</button>";
-                            }
-                        }else{
+                            $btn = "<div class='booking-actions'>
+                                <a href='generate_pdf.php?gen_pdf&id=$data[booking_id]' class='btn btn-dark btn-sm'><i class='bi bi-file-earmark-pdf me-1'></i>Tải PDF</a>";
                             
-                            $btn = "<button onclick='cancel_booking($data[booking_id])' type='button'  class='btn btn-danger btn-sm shadow-none'> Hủy bỏ</button>
-                            ";
+                            if ($data['rate_review'] == 0) {
+                                $btn .= "<button type='button' onclick='review_room($data[booking_id], $data[room_id])' data-bs-toggle='modal' data-bs-target='#reviewModal' class='btn btn-dark btn-sm'><i class='bi bi-star me-1'></i>Đánh Giá</button>";
+                            }
+                            
+                            $btn .= "</div>";
+                        }else{
+                            $btn = "<div class='booking-actions'>
+                                <button onclick='cancel_booking($data[booking_id])' type='button' class='btn btn-danger btn-sm'><i class='bi bi-x-circle me-1'></i>Hủy Đơn</button>
+                            </div>";
                         }
                     }
                     else if ($data['booking_status'] == 'cancelled')
@@ -73,65 +90,111 @@
                         $status_bg = "bg-danger";
                         if ($data['refund'] == 0)
                         {
-                            $btn = "<span class='badge bg-primary'>Đang hoàn tiền!</span>";
+                            $btn = "<div class='booking-status'><span class='badge bg-primary'>Đang hoàn tiền!</span></div>";
                         }
                         else
                         {
-                            $btn = "<a href='generate_pdf.php?gen_pdf&id=$data[booking_id]' class='btn btn-dark btn-sm shadow-none'>Download PDF </a>";
+                            $btn = "<div class='booking-actions'>
+                                <a href='generate_pdf.php?gen_pdf&id=$data[booking_id]' class='btn btn-dark btn-sm'><i class='bi bi-file-earmark-pdf me-1'></i>Tải PDF</a>
+                            </div>";
                         }
                     }
                     else{
                         $status_bg = "bg-warning";
-                        $btn = "<a href='generate_pdf.php?gen_pdf&id=$data[booking_id]' class='btn btn-dark btn-sm shadow-none'>Download PDF </a>";
+                        $btn = "<div class='booking-actions'>
+                            <a href='generate_pdf.php?gen_pdf&id=$data[booking_id]' class='btn btn-dark btn-sm'><i class='bi bi-file-earmark-pdf me-1'></i>Tải PDF</a>
+                        </div>";
                     }
+                    
                     $formatted_price = number_format($data['price'], 0, ',', '.');
                     $formatted_price_total = number_format($data['total_amount'], 0, ',', '.');
 
+                    $status_text = $data['booking_status'];
+                    if($status_text == 'booked') $status_text = 'Đã Đặt';
+                    else if($status_text == 'cancelled') $status_text = 'Đã Hủy';
+                    else if($status_text == 'refunded') $status_text = 'Đã Hoàn Tiền';
+
+                    // Get room thumbnail
+                    $room_thumb = "images/rooms/thumbnail.jpg";
+                    $thumb_q = mysqli_query($con, "SELECT * FROM `room_images` 
+                        WHERE `room_id` = '$data[room_id]' 
+                        AND `thumb` = '1'");
+
+                    if (mysqli_num_rows($thumb_q) > 0) {
+                        $thumb_res = mysqli_fetch_assoc($thumb_q);
+                        $room_thumb = ROOMS_IMG_PATH . $thumb_res['image'];
+                    }
+
                     echo <<<bookings
-                        <div class='col-md-4 px-4 mb-4'>
-                            <div class='bg-white p-3 rounded shadow-sm'>
-                                <h5 class='fw-bold'>$data[room_name]</h5>
-                                <b>Giá:</b> $formatted_price VND Mỗi đêm
-                                <p>
-                                    <b>Check in: </b> $checkin <br>
-                                    <b>Check out: </b> $checkout
-                                </p>
-                                <p>
-                                    <b>Tổng Tiền: </b> $formatted_price_total VND<br>
-                                    <b>Order ID: </b> $data[invoice_id] <br>
-                                    <b>Ngày Đặt: </b> $date
-                                </p>
-                                <p>
-                                    <span class='badge $status_bg'>$data[booking_status]</span>
-                                </p>
-                                $btn
+                        <div class='col-lg-4 col-md-6 mb-4'>
+                            <div class='booking-card'>
+                                <div class='booking-header'>
+                                    <h5 class='booking-room-name'>$data[name]</h5>
+                                    <div class='booking-price'>$formatted_price VND <small class="text-muted">mỗi đêm</small></div>
+                                </div>
+                                <div class='booking-body'>
+                                    <div class='booking-dates'>
+                                        <div class='booking-date-item'>
+                                            <div class='booking-date-label'>Check in</div>
+                                            <div class='booking-date-value'>$checkin</div>
+                                        </div>
+                                        <div class='booking-date-item'>
+                                            <div class='booking-date-label'>Check out</div>
+                                            <div class='booking-date-value'>$checkout</div>
+                                        </div>
+                                    </div>
+                                    <div class='booking-details'>
+                                        <div class='booking-details-item booking-total'>
+                                            <div class='booking-details-label'>Tổng Thanh Toán</div>
+                                            <div class='booking-details-value'>$formatted_price_total VND</div>
+                                        </div>
+                                        <div class='booking-details-item'>
+                                            <div class='booking-details-label'>Mã Hóa Đơn</div>
+                                            <div class='booking-details-value'>$data[invoice_id]</div>
+                                        </div>
+                                        <div class='booking-details-item'>
+                                            <div class='booking-details-label'>Ngày Đặt</div>
+                                            <div class='booking-details-value'>$date</div>
+                                        </div>
+                                    </div>
+                                    <div class='booking-status'>
+                                        <span class='badge $status_bg'>$status_text</span>
+                                    </div>
+                                    $btn
+                                </div>
                             </div>
                         </div>
                     bookings;
-
                 }
-            
             ?>
-
         </div>
     </div>
 
-    
-        
+    <!-- Rating & Review Modal -->
     <div class="modal fade" id="reviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="review-form">
                     <div class="modal-header">
-                        <h5 class="modal-title d-flex align-items-center"><i class="bi bi-chat-square-heart-fill fs-3 me-2"></i>Xếp hạng & Đánh giá</h5>
+                        <h5 class="modal-title d-flex align-items-center"><i class="bi bi-star-fill fs-3 me-2 text-warning"></i>Xếp hạng & Đánh giá</h5>
                         <button type="reset" class="btn-close shadow-none" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Xếp Hạng</label>
-                            <select class="form-select shadow-none" name="rating">
+                            <div class="rating-container mb-2">
+                                <div class="rating-stars">
+                                    <i class="bi bi-star-fill rating-star" data-rating="1"></i>
+                                    <i class="bi bi-star rating-star" data-rating="2"></i>
+                                    <i class="bi bi-star rating-star" data-rating="3"></i>
+                                    <i class="bi bi-star rating-star" data-rating="4"></i>
+                                    <i class="bi bi-star rating-star" data-rating="5"></i>
+                                </div>
+                                <div class="rating-text">Tuyệt vời</div>
+                            </div>
+                            <select class="form-select shadow-none d-none" name="rating">
                                 <option value="5">Tuyệt vời</option>
                                 <option value="4">Hài lòng</option>
                                 <option value="3">Tạm ổn</option>
@@ -141,22 +204,20 @@
                         </div>
                         <div class="mb-4">
                             <label class="form-label">Đánh Giá</label>
-                            <textarea type="password" name="review" rows="3" required class="form-control shadow-none"></textarea>
-                            </div>
+                            <textarea type="password" name="review" rows="3" required class="form-control shadow-none" placeholder="Hãy chia sẻ trải nghiệm của bạn..."></textarea>
+                        </div>
 
-                            <input type="hidden" name="booking_id">
-                            <input type="hidden" name="room_id">
+                        <input type="hidden" name="booking_id">
+                        <input type="hidden" name="room_id">
 
-                            <div class="text-end">
-                            <button type="submit" class="btn custom-bg text-white shadow-none">Gửi</button>
+                        <div class="text-end">
+                            <button type="submit" class="btn custom-bg text-white shadow-none">Gửi Đánh Giá</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-
 
     <?php
     if(isset($_GET['cancel_status'])){
@@ -169,11 +230,8 @@
     <?php require('inc/footer.php') ?>
 
     <script>
-    function cancel_booking(id)
-    {
-        if(confirm('Bạn có chắc chắn hủy đặt phòng?'))
-        {
-            
+    function cancel_booking(id) {
+        if(confirm('Bạn có chắc chắn hủy đặt phòng?')) {
             let xhr = new XMLHttpRequest();
             xhr.open("POST", "ajax/cancel_booking.php", true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -185,17 +243,69 @@
                     alert('error', 'Hủy không thành công!');
                 }
             }
-            console.log(id);
             xhr.send('cancel_booking&id='+id);
         }
     }
 
     let review_form = document.getElementById('review-form');
+    
+    // Star rating functionality
+    const ratingStars = document.querySelectorAll('.rating-star');
+    const ratingText = document.querySelector('.rating-text');
+    const ratingSelect = document.querySelector('select[name="rating"]');
+    const ratingTexts = ['Rất tệ', 'Không hài lòng', 'Tạm ổn', 'Hài lòng', 'Tuyệt vời'];
+    
+    // Set initial rating
+    let currentRating = 5;
+    updateStars(currentRating);
+    
+    ratingStars.forEach(star => {
+        star.addEventListener('click', function() {
+            currentRating = parseInt(this.dataset.rating);
+            ratingSelect.value = currentRating;
+            updateStars(currentRating);
+        });
+        
+        star.addEventListener('mouseover', function() {
+            const hoverRating = parseInt(this.dataset.rating);
+            highlightStars(hoverRating);
+        });
+        
+        star.addEventListener('mouseout', function() {
+            highlightStars(currentRating);
+        });
+    });
+    
+    function highlightStars(rating) {
+        ratingStars.forEach(star => {
+            const starRating = parseInt(star.dataset.rating);
+            if (starRating <= rating) {
+                star.classList.remove('bi-star');
+                star.classList.add('bi-star-fill');
+                star.style.color = '#ffc107';
+            } else {
+                star.classList.remove('bi-star-fill');
+                star.classList.add('bi-star');
+                star.style.color = '#6c757d';
+            }
+        });
+        ratingText.textContent = ratingTexts[rating-1];
+    }
+    
+    function updateStars(rating) {
+        ratingSelect.value = rating;
+        highlightStars(rating);
+    }
 
     function review_room(bid, rid) {
         review_form.elements['booking_id'].value = bid;
-        review_form.elements['room_id'].value = rid; 
+        review_form.elements['room_id'].value = rid;
+        
+        // Reset stars to 5 by default
+        currentRating = 5;
+        updateStars(currentRating);
     }
+    
     review_form.addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -222,7 +332,6 @@
 
         xhr.send(data);
     });
-    
     </script>
 
 </body>

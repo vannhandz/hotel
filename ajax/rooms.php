@@ -134,7 +134,7 @@
             // print romm
         
             $output .= "
-                <div class='room-card'>
+                <div class='room-card' style='height: auto'>
                     <div class='row g-0'>
                         <div class='col-md-3'>
                             <div class='room-gallery'>
@@ -163,14 +163,14 @@
                             
                             <div class='d-flex flex-wrap gap-2'>
                                 <div class='room-features'>
-                                    <h6><i class='bi bi-stars'></i>Tính Năng</h6>
+                                    <h6><i class='bi bi-star me-1'></i>Tính Năng</h6>
                                     <div>
                                         $features_data
                                     </div>
                                 </div>
                                 
                                 <div class='room-features'>
-                                    <h6><i class='bi bi-check-circle'></i>Tiện Nghi</h6>
+                                    <h6><i class='bi bi-house-gear me-1'></i>Tiện Nghi</h6>
                                     <div>
                                         $facilities_data
                                     </div>

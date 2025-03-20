@@ -101,7 +101,7 @@
 
                         <div class="section-container">
                             <h3 class="booking-section-header">
-                                <i class="bi bi-house-gear"></i>Tính Năng
+                            <i class="bi bi-star me-1"></i>Tính Năng
                             </h3>
                             <div class="feature-pills">
                                 <?php

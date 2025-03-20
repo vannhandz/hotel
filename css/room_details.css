@@ -509,7 +509,7 @@
 .btn-book-now {
     display: inline-block;
     width: 100%;
-    background: linear-gradient(to right, var(--primary), var(--secondary));
+    background: linear-gradient(to right, #33eed5, #06ad97);
     color: white;
     border: none;
     padding: 15px 25px;
@@ -521,6 +521,7 @@
     text-align: center;
     margin-top: 10px;
 }
+
 
 .btn-book-now:hover {
     transform: translateY(-3px);

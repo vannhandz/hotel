@@ -107,145 +107,149 @@
 
     <!-- Our rooms section -->
     <div class="container py-5">
-        <h2 class="section-title text-center h-font">Các Loại Phòng</h2>
+        <h2 class="section-title text-center h-font mb-4">Các Loại Phòng</h2>
         <div class="row">
-                <?php
-                $room_res = select("SELECT * FROM `rooms` WHERE `status`=? AND `removed`=? ORDER BY `id` DESC LIMIT 3 ", [1, 0], 'ii');
+            <?php
+            $room_res = select("SELECT * FROM `rooms` WHERE `status`=? AND `removed`=? ORDER BY `id` DESC LIMIT 3 ", [1, 0], 'ii');
 
-                while ($room_data = mysqli_fetch_assoc($room_res)) {
-                    // get features of room
-                    $fea_q = mysqli_query($con, "SELECT f.name FROM `features` f
-                            INNER JOIN `room_features` rfea ON f.id = rfea.features_id
-                            WHERE rfea.room_id = '$room_data[id]' ");
+            while ($room_data = mysqli_fetch_assoc($room_res)) {
+                // get features of room
+                $fea_q = mysqli_query($con, "SELECT f.name FROM `features` f
+                        INNER JOIN `room_features` rfea ON f.id = rfea.features_id
+                        WHERE rfea.room_id = '$room_data[id]' ");
 
-                    $features_data = "";
-                    while ($fea_row = mysqli_fetch_assoc($fea_q)) {
+                $features_data = "";
+                while ($fea_row = mysqli_fetch_assoc($fea_q)) {
                     $features_data .= "<span class='badge rounded-pill me-1 mb-1'>$fea_row[name]</span>";
-                    }
+                }
 
-                    // get facilities of room
-                    $fac_q = mysqli_query($con, "SELECT f.name FROM `facilities` f
-                        INNER JOIN `room_facilities` rfac ON f.id = rfac.facilities_id
-                        WHERE rfac.room_id = '$room_data[id]' ");
+                // get facilities of room
+                $fac_q = mysqli_query($con, "SELECT f.name FROM `facilities` f
+                    INNER JOIN `room_facilities` rfac ON f.id = rfac.facilities_id
+                    WHERE rfac.room_id = '$room_data[id]' ");
 
-                    $facilities_data = "";
-                    if ($fac_q) { // Kiểm tra xem truy vấn có thành công không
-                        while ($fac_row = mysqli_fetch_assoc($fac_q)) {
+                $facilities_data = "";
+                if ($fac_q) { // Kiểm tra xem truy vấn có thành công không
+                    while ($fac_row = mysqli_fetch_assoc($fac_q)) {
                         $facilities_data .= "<span class='badge rounded-pill me-1 mb-1'>$fac_row[name]</span>";
-                        }
                     }
+                }
 
-                    // get thumbnail of image
-                    $room_thumb = ROOMS_IMG_PATH . "thumb.png";
-                    $thumb_q = mysqli_query($con, "SELECT image FROM `room_images`
-                                                    WHERE `room_id` = '$room_data[id]'
-                                                    AND `thumb` = '1' ");
+                // get thumbnail of image
+                $room_thumb = ROOMS_IMG_PATH . "thumb.png";
+                $thumb_q = mysqli_query($con, "SELECT image FROM `room_images`
+                                                WHERE `room_id` = '$room_data[id]'
+                                                AND `thumb` = '1' ");
 
-                    if (mysqli_num_rows($thumb_q) > 0) {
-                        $thumb_res = mysqli_fetch_assoc($thumb_q);
-                        $room_thumb = ROOMS_IMG_PATH . $thumb_res['image'];
+                if (mysqli_num_rows($thumb_q) > 0) {
+                    $thumb_res = mysqli_fetch_assoc($thumb_q);
+                    $room_thumb = ROOMS_IMG_PATH . $thumb_res['image'];
+                }
+
+                $book_btn = "";
+
+                if (!$settings_r['shutdown']) {
+                    $login = 0;
+                    if (isset($_SESSION['login']) && $_SESSION['login'] == true) {
+                        $login = 1;
                     }
+                    $book_btn = "<button onclick='checkLoginToBook($login,$room_data[id])' class='btn btn-book'><i class='bi bi-calendar-check me-1'></i>Đặt Ngay</button>";
+                }
 
+                $rating_q = "SELECT AVG(rating) AS `avg_rating` FROM `rating_review`
+                    WHERE `room_id` = '$room_data[id]' ORDER BY `sr_no` DESC LIMIT 20";
 
-                    $book_btn = "";
-
-                    if (!$settings_r['shutdown']) {
-                        $login = 0;
-                        if (isset($_SESSION['login']) && $_SESSION['login'] == true) {
-                            $login = 1;
-                        }
-                        $book_btn = "<button onclick='checkLoginToBook($login,$room_data[id])' class='btn btn-sm text-white custom-bg shadow-none'>Đặt Ngay</button>";
-                    }
-
-                    $rating_q = "SELECT AVG(rating) AS `avg_rating` FROM `rating_review`
-                        WHERE `room_id` = '$room_data[id]' ORDER BY `sr_no` DESC LIMIT 20";
-
-                    $rating_res = mysqli_query($con, $rating_q);
-                    $rating_fetch = mysqli_fetch_assoc($rating_res);
+                $rating_res = mysqli_query($con, $rating_q);
+                $rating_fetch = mysqli_fetch_assoc($rating_res);
 
                 // print room
                 echo <<<data
                     <div class="col-lg-4 col-md-6 mb-4">
-                        <div class="card room-card">
-                            <div class="rating-container">
-                                <div class="rating-stars">
+                        <div class="card room-card shadow-sm">
+                            <div class="room-image-container position-relative overflow-hidden">
+                                <img src="$room_thumb" class="card-img-top" alt="$room_data[name]">
+                                <div class="rating-badge position-absolute">
                 data;
 
                 if($rating_fetch['avg_rating'] != NULL) {
+                    echo '<div class="d-flex align-items-center">';
+                    
                     for($i=0; $i < floor($rating_fetch['avg_rating']); $i++){
-                        echo '<i class="bi bi-star-fill"></i>';
+                        echo '<i class="bi bi-star-fill text-warning"></i>';
                     }
                     
                     // Hiển thị nửa sao nếu có phần thập phân lớn hơn 0.2 và nhỏ hơn 0.8
                     $decimal = $rating_fetch['avg_rating'] - floor($rating_fetch['avg_rating']);
                     if ($decimal > 0.2 && $decimal < 0.8) {
-                        echo '<i class="bi bi-star-half"></i>';
+                        echo '<i class="bi bi-star-half text-warning"></i>';
                         $i++;
                     } else if ($decimal >= 0.8) {
-                        echo '<i class="bi bi-star-fill"></i>';
+                        echo '<i class="bi bi-star-fill text-warning"></i>';
                         $i++;
                     }
                     
                     // Hiển thị sao trống cho số còn lại đến 5
                     for(; $i < 5; $i++){
-                        echo '<i class="bi bi-star"></i>';
+                        echo '<i class="bi bi-star text-warning"></i>';
                     }
+                    
+                    echo '</div>';
                 } else {
                     echo '<span class="no-rating">Chưa đánh giá</span>';
                 }
                 
-                    echo <<<data
+                echo <<<data
                                 </div>
                             </div>
-                            <img src="$room_thumb" class="card-img-top">
                             <div class="card-body">
-                                <h5 class="card-title">$room_data[name]</h5>
-                                <h6 class="price">
-                     data;
+                                <h5 class="card-title fw-bold">$room_data[name]</h5>
+                                <h6 class="room-price mb-3">
+                data;
 
-                    // Tách mã PHP ra khỏi chuỗi heredoc
-                    echo number_format($room_data['price'], 0, ',', '.') . ' VND mỗi đêm';
+                // Tách mã PHP ra khỏi chuỗi heredoc
+                echo '<span class="price-tag">' . number_format($room_data['price'], 0, ',', '.') . ' VND</span> <small class="text-muted">mỗi đêm</small>';
 
-                    echo <<<data
-                                    </h6>
-                                <div class="features">
-                                    <h6 class="fw-bold">Tính Năng</h6>
+                echo <<<data
+                                </h6>
+                                
+                                <div class="room-capacity d-flex mb-3">
+                                    <div class="capacity-item me-3">
+                                        <i class="bi bi-person-fill"></i> $room_data[adult] người lớn
+                                    </div>
+                                    <div class="capacity-item">
+                                        <i class="bi bi-people-fill"></i> $room_data[children] trẻ em
+                                    </div>
+                                </div>
+                                
+                                <div class="room-features mb-3">
+                                    <h6 class="fw-bold mb-2"><i class="bi bi-star me-1"></i>Tính Năng</h6>
                                     <div class="d-flex flex-wrap">
                                         $features_data
                                     </div>
                                 </div>
-                                <div class="facilities">
-                                    <h6 class="fw-bold">Tiện Nghi</h6>
+                                
+                                <div class="room-facilities mb-3">
+                                    <h6 class="fw-bold mb-2"><i class="bi bi-house-gear me-1"></i>Tiện Nghi</h6>
                                     <div class="d-flex flex-wrap">
                                         $facilities_data
                                     </div>
                                 </div>
-                                <div class="guests">
-                                    <h6 class="fw-bold">Khách Hàng</h6>
-                                    <div class="d-flex flex-wrap">
-                                        <span class="badge rounded-pill">
-                                            $room_data[adult] Người Lớn
-                                        </span>
-                                        <span class="badge rounded-pill">
-                                            $room_data[children] Trẻ Em
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-between mt-auto">
-                                        $book_btn
-                                        <a href="room_details.php?id=$room_data[id]" class="btn btn-sm btn-outline-dark shadow-none">Chi Tiết</a>
-                                    </div>
+                                
+                                <div class="d-flex justify-content-between mt-3">
+                                    $book_btn
+                                    <a href="room_details.php?id=$room_data[id]" class="btn btn-details"><i class="bi bi-info-circle me-1"></i>Chi Tiết</a>
                                 </div>
                             </div>
                         </div>
-                    data;
-                }
-                ?>
-            <div class="col-lg-12 text-center">
+                    </div>
+                data;
+            }
+            ?>
+            <div class="col-lg-12 text-center mt-3">
                 <a href="rooms.php" class="btn btn-view-more">Xem Thêm <i class="bi bi-arrow-right"></i></a>
-                </div>
             </div>
         </div>
+    </div>
 
     <!-- Facilities section -->
     <div class="container py-5">
