@@ -36,9 +36,9 @@
             <div class="col-12 my-5 mb-4 px-4">
                 <h2 class="fw-bold"><?php echo $room_data['name'] ?></h2>
                 <div style="font-size:14px">
-                    <a href="index.php" class="text-secondary text-decoration-none">HOME</a>
+                    <a href="index.php" class="text-secondary text-decoration-none">Trang Chủ</a>
                     <span class="text-secondary"> > </span>
-                    <a href="rooms.php" class="text-secondary text-decoration-none">ROOMS</a>
+                    <a href="rooms.php" class="text-secondary text-decoration-none">Phòng</a>
                 </div>
             </div>
 
@@ -69,12 +69,12 @@
                     <button class="carousel-control-prev" type="button" data-bs-target="#roomCarousel"
                         data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
+                        <span class="visually-hidden">Trước</span>
                     </button>
                     <button class="carousel-control-next" type="button" data-bs-target="#roomCarousel"
                         data-bs-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
+                        <span class="visually-hidden">Kế Tiếp</span>
                     </button>
                 </div>
             </div>
@@ -88,7 +88,7 @@
                        price;
 
                         // Tách phần mã PHP để định dạng giá tiền
-                        echo number_format($room_data['price'], 0, ',', '.') . ' VND per night';
+                        echo number_format($room_data['price'], 0, ',', '.') . ' VND mỗi đêm';
 
                         echo <<<price
                            </h4>
@@ -130,7 +130,7 @@
 
                         echo <<<features
                                 <div class=" mb-3">
-                                    <h6 class="mb-1">Features</h6>$features_data
+                                    <h6 class="mb-1">Tính Năng</h6>$features_data
                                 </div>
                             features;
 
@@ -150,26 +150,26 @@
 
                         echo <<<facilities
                                 <div class="facilities mb-3">
-                                    <h6 class="mb-1">Facilities</h6>
+                                    <h6 class="mb-1">Tiện Nghi</h6>
                                     $facilities_data
                                 </div>
                             facilities;
 
                         echo <<<guests
                                 <div class="mb-3">
-                                    <h6 class="mb-1">Guests</h6>
+                                    <h6 class="mb-1">Khách Hàng</h6>
                                     <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                        $room_data[adult] Adults
+                                        $room_data[adult] Người Lớn
                                     </span>
                                     <span class="badge rounded-pill bg-light text-dark text-wrap">
-                                        $room_data[children] Children
+                                        $room_data[children] Trẻ Em
                                     </span>
                                 </div>
                             guests;
 
                         echo <<<area
                             <div class="mb-3">
-                                <h6 class="mb-1">Area</h6>
+                                <h6 class="mb-1">Diện Tích</h6>
                                 <span class='badge rounded-pill bg-light text-dark text-wrap me-1 mb-1'>
                                  $room_data[area] sq. ft
                                 </span>
@@ -195,13 +195,13 @@
 
             <div class="col-12 mt-4 px-4">
                 <div class="mb-4">
-                    <h5>Description</h5>
+                    <h5>Mô Tả</h5>
                     <p>
                         <?php echo $room_data['description']; ?>
                     </p>
                 </div>
                 <div>
-                    <h5 class="mb-3">Reviews & Ratings</h5>
+                    <h5 class="mb-3">Xếp Hạng & Đánh Giá </h5>
                     <?php
 
                         $review_q = "SELECT rr.*,uc.name AS uname, r.name AS rname FROM `rating_review` rr
@@ -249,7 +249,6 @@
     </div>
 
     <?php require('inc/footer.php') ?>
-    <?php require('chat.php') ?>
 
 </body>
 

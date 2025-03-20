@@ -19,7 +19,7 @@ adminLogin();
     <div class="container-fluid" id="main-content">
         <div class="row">
             <div class="col-lg-10 ms-auto p-4 overflow-hidden">
-                <h3 class="mb-4">Refund Bookings</h3>
+                <h3 class="mb-4">Hoàn Tiền Đặt Phòng</h3>
 
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-body">
@@ -33,10 +33,10 @@ adminLogin();
                                 <thead>
                                     <tr class="bg-dark text-light" style="min-width: 1200px">
                                         <th scope="col">#</th>
-                                        <th scope="col">User Details</th>
-                                        <th scope="col">Room Details</th>
-                                        <th scope="col">Refund Amout</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col">Chi Tiết Người Dùng</th>
+                                        <th scope="col">Chi Tiết Phòng</th>
+                                        <th scope="col">Số Tiền Hoàn Lại</th>
+                                        <th scope="col">Trạng Thái</th>
                                     </tr>
                                 </thead>
                                 <tbody id="table_data">

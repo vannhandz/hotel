@@ -48,13 +48,13 @@
         <div class="row">
 
             <div class="col-12 my-5 mb-4 px-4">
-                <h2 class="fw-bold">CONFIRM BOOKING</h2>
+                <h2 class="fw-bold">XÁC NHẬN ĐẶT PHÒNG</h2>
                 <div style="font-size:14px">
-                    <a href="index.php" class="text-secondary text-decoration-none">HOME</a>
+                    <a href="index.php" class="text-secondary text-decoration-none">Trang Chủ</a>
                     <span class="text-secondary"> > </span>
-                    <a href="rooms.php" class="text-secondary text-decoration-none">ROOMS</a>
+                    <a href="rooms.php" class="text-secondary text-decoration-none">Phòng</a>
                     <span class="text-secondary"> > </span>
-                    <a href="#" class="text-secondary text-decoration-none">CONFIRM</a>
+                    <a href="#" class="text-secondary text-decoration-none">Xác Nhận</a>
                 </div>
             </div>
 
@@ -79,7 +79,7 @@
                 data;
 
                 // Tách phần mã PHP để định dạng giá tiền
-                echo number_format($room_data['price'], 0, ',', '.') . ' VND per night';
+                echo number_format($room_data['price'], 0, ',', '.') . ' VND mỗi đêm';
 
                 echo <<<data
                         </h6>
@@ -93,15 +93,15 @@
                 <div class="card mb-4 border-0 shadow-sm rounded-3">
                     <div class="card-body">
                         <form action="" method="POST" id="booking_form">
-                            <h6 class="mb-3">BOOKING DETAILS</h6>
+                            <h6 class="mb-3">CHI TIẾT</h6>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label ">Name</label>
+                                    <label class="form-label ">Tên Khách Hàng</label>
                                     <input name="name" type="text" value="<?php echo $user_data['name'] ?>"
                                         class="form-control shadow-none" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label ">Phone</label>
+                                    <label class="form-label ">Số Điện Thoại</label>
                                     <input name="phone" type="number" value="<?php echo $user_data['phonenum'] ?>"
                                         class="form-control shadow-none" required>
                                 </div>
@@ -122,7 +122,7 @@
                                     <h6 class="mb-3 text-danger" id="pay_info">Cung cấp ngày nhận phòng và trả phòng!
                                     </h6>
                                     <button name="pay_now" class="btn w-100 text-white custom-bg shadow-none mb-1"
-                                        disabled>Pay Now</button>
+                                        disabled>Thanh Toán</button>
                                 </div>
                             </div>
                         </form>
@@ -230,7 +230,7 @@
         });
 
     </script>
-     <?php require('chat.php') ?>
+
 </body>
 
 </html>

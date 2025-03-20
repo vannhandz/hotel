@@ -37,19 +37,19 @@ if(isset($_GET['gen_pdf']) && isset($_GET['id']))
     <table border='1'>
         <tr>
             <td>Order ID: $data[invoice_id]</td>
-            <td>Booking Date: $date</td>
+            <td>Ngày Đặt Phòng: $date</td>
         </tr>
         <tr>
-            <td>Name: $data[name]</td>
+            <td>Tên: $data[name]</td>
             <td colspan='2'>Status: $data[booking_status]</td>
         </tr>
         <tr>
             <td>Email: $data[email]</td>
-            <td>Phone Number: $data[phonenum]</td>
+            <td>Số Điện Thoại: $data[phonenum]</td>
         </tr>
         <tr>
-            <td>Room Name: $data[room_name]</td>
-            <td>Price: " . number_format($data['price']) . " VND Mỗi đêm</td>
+            <td>Loại: $data[room_name]</td>
+            <td>Giá: " . number_format($data['price']) . " VND Mỗi đêm</td>
         </tr>
         <tr>
             <td>Check-in: $checkin</td>

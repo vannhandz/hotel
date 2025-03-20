@@ -14,12 +14,12 @@
     <?php require('inc/header.php') ?>
 
     <div class="my-5 px-4">
-        <h2 class="fw-bold h-font text-center">OUR FACALITIES</h2>
+        <h2 class="fw-bold h-font text-center">Tiện Nghi</h2>
         <div class="h-line bg-dark"></div>
-        <p class="text-center mt-3">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsum nisi molestiae eligendi 
-            illum commodi fuga, nostrum omnis facere voluptate, velit sequi adipisci? Reprehenderit 
-            illum dolorem veniam nihil aliquid laborum culpa.
+        <p class="text-center mt-4">
+        Chúng tôi tự hào mang đến cho quý khách những tiện nghi đẳng cấp, được thiết kế tỉ mỉ để đáp ứng mọi nhu cầu của quý khách. <br>
+        Từ hồ bơi vô cực với tầm nhìn ngoạn mục, phòng tập gym hiện đại với trang thiết bị tối tân, 
+        đến spa thư giãn với các liệu pháp trị liệu chuyên nghiệp, chúng tôi cam kết mang đến cho quý khách những trải nghiệm khó quên
         </p>
     </div>
 
@@ -52,7 +52,6 @@
     </div>
 
     <?php require('inc/footer.php') ?>
-    <?php require('chat.php') ?>
 
 </body>
 

@@ -15,7 +15,7 @@
             <div class="collapse navbar-collapse flex-lg-column align-items-stretch mt-2" id="adminDropdown">
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="dashboard.php">Dashboard</a>
+                        <a class="nav-link text-white" href="dashboard.php">Bảng Điều Khiển</a>
                     </li>
                     <li class="nav-item">
                         <button
@@ -27,37 +27,37 @@
                         <div class="collapse show px-3 small mb-1" id="bookingLinks">
                             <ul class="nav nav-pills flex-column rounded border border-secondary">
                                 <li class="nav-item">
-                                    <a class="nav-link text-white" href="new_bookings.php">New Bookings</a>
+                                    <a class="nav-link text-white" href="new_bookings.php">Đặt Phòng Mới</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-white" href="refund_bookings.php">Refund Bookings</a>
+                                    <a class="nav-link text-white" href="refund_bookings.php">Hoàn Tiền Đặt Phòng</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-white" href="booking_records.php">Bookings Record</a>
+                                    <a class="nav-link text-white" href="booking_records.php">Danh Sách Đặt Phòng</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="users.php">Users</a>
+                        <a class="nav-link text-white" href="users.php">Người Dùng</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="user_queries.php">User Queries</a>
+                        <a class="nav-link text-white" href="user_queries.php">Yêu Cầu Của Người Dùng</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="rate_review.php">Ratings & Review</a>
+                        <a class="nav-link text-white" href="rate_review.php">Xếp Hạng & Đánh Giá</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="rooms.php">Rooms</a>
+                        <a class="nav-link text-white" href="rooms.php">Phòng</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="features_facilities.php">Features & Facilities</a>
+                        <a class="nav-link text-white" href="features_facilities.php">Tính Năng & Tiện Nghi</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="carousel.php">Carousel</a>
+                        <a class="nav-link text-white" href="carousel.php">Trình Chiếu</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="setting.php">Settings</a>
+                        <a class="nav-link text-white" href="setting.php">Cài Đặt</a>
                     </li>
                 </ul>
             </div>

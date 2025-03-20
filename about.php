@@ -14,26 +14,25 @@
     <?php require('inc/header.php') ?>
 
     <div class="my-5 px-4">
-        <h2 class="fw-bold h-font text-center">ABOUT US</h2>
+        <h2 class="fw-bold h-font text-center">GIỚI THIỆU</h2>
         <div class="h-line bg-dark"></div>
         <p class="text-center mt-3">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsum nisi molestiae eligendi
-            illum commodi fuga, nostrum omnis facere voluptate, velit sequi adipisci? Reprehenderit
-            illum dolorem veniam nihil aliquid laborum culpa.
+        Đội ngũ nhân viên khách sạn của chúng tôi là yếu tố then chốt tạo nên trải nghiệm tuyệt vời cho khách hàng. <br>
+        Họ được tuyển chọn và đào tạo kỹ lưỡng, thể hiện sự chuyên nghiệp, tận tâm và chu đáo trong mọi hành động.
         </p>
     </div>
 
     <div class="container ">
         <div class="row justify-content-between align-items-center">
             <div class="col-lg-6 col-md-5 mb-4 order-lg-1 order-md-1  order-2">
-                <h3 class="mb-3">Lorem ipsum dolor</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo dolores, ratione, error accusamus,
-                    earum fugit pariatur quibusdam ut nesciunt harum tempore sapiente veritatis rem mollitia cum. Error
-                    sint facilis repellat?
+                <h3 class="mb-3">Người Đứng Đầu</h3>
+                <p>Với tư cách là người đứng đầu khách sạn, tôi sẽ tập trung vào việc tạo ra trải nghiệm khách hàng vượt trội, 
+                    xây dựng đội ngũ nhân viên chuyên nghiệp, quản lý tài chính hiệu quả, củng cố thương hiệu và đảm bảo an toàn, tuân thủ. 
+                    Mục tiêu của tôi là đưa khách sạn trở thành điểm đến hàng đầu, nơi khách hàng cảm thấy như ở nhà và nhân viên tự hào cống hiến.
                 </p>
             </div>
             <div class="col-lg-5 col-md-5 mb-4 order-lg-2 order-md-2 order-1">
-                <img src="images/about/about.jpg" class="w-100">
+                <img src="images/about/leader.jpg" class="w-100">
             </div>
         </div>
     </div>
@@ -43,31 +42,31 @@
             <div class="col-lg-3 col-md-6 mb-4 px-4">
                 <div class="bg-white rounded shadow p-4 border-top border-4 text-center box">
                     <img src="images/about/hotel.svg" width="70px">
-                    <h4 class="mt-3">100+ ROOMS</h4>
+                    <h4 class="mt-3">100+ PHÒNG</h4>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-4 px-4">
                 <div class="bg-white rounded shadow p-4 border-top border-4 text-center box">
                     <img src="images/about/customer.svg" width="70px">
-                    <h4 class="mt-3">200+ CUSTOMERS</h4>
+                    <h4 class="mt-3">200+ KHÁCH HÀNG</h4>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-4 px-4">
                 <div class="bg-white rounded shadow p-4 border-top border-4 text-center box">
                     <img src="images/about/review.svg" width="70px">
-                    <h4 class="mt-3">150+ RIVIEWS</h4>
+                    <h4 class="mt-3">150+ ĐÁNH GIÁ</h4>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 mb-4 px-4">
                 <div class="bg-white rounded shadow p-4 border-top border-4 text-center box">
                     <img src="images/about/staff.svg" width="70px">
-                    <h4 class="mt-3">100+ STAFFS</h4>
+                    <h4 class="mt-3">100+ NHÂN VIÊN</h4>
                 </div>
             </div>
         </div>
     </div>
 
-    <h3 class="my-5 fw-bold h-font text-center">MANAGEMENT TEAM</h3>
+    <h3 class="my-5 fw-bold h-font text-center">ĐỘI NGŨ QUẢN LÝ</h3>
 
     <div class="container px-4">
         <div class="swiper mySwiper">
@@ -91,7 +90,6 @@
 
 
     <?php require('inc/footer.php') ?>
-    <?php require('chat.php') ?>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>

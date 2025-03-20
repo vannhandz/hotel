@@ -8,15 +8,15 @@
             </p>
         </div>
         <div class="col-lg-4 p-4">
-            <h5 class="mb-3">Links</h5>
-            <a href="index.php" class="d-inline-block mb-2 text-dark text-decoration-none">Home</a><br>
-            <a href="rooms.php" class="d-inline-block mb-2 text-dark text-decoration-none">Rooms</a><br>
-            <a href="facilities.php" class="d-inline-block mb-2 text-dark text-decoration-none">Facilities</a><br>
-            <a href="contact.php" class="d-inline-block mb-2 text-dark text-decoration-none">Contact us</a><br>
-            <a href="about.php" class="d-inline-block mb-2 text-dark text-decoration-none">About</a>
+            <h5 class="mb-3">Liên Kết</h5>
+            <a href="index.php" class="d-inline-block mb-2 text-dark text-decoration-none">Trang Chủ</a><br>
+            <a href="rooms.php" class="d-inline-block mb-2 text-dark text-decoration-none">Phòng</a><br>
+            <a href="facilities.php" class="d-inline-block mb-2 text-dark text-decoration-none">Tiện Nghi</a><br>
+            <a href="contact.php" class="d-inline-block mb-2 text-dark text-decoration-none">Liên Hệ</a><br>
+            <a href="about.php" class="d-inline-block mb-2 text-dark text-decoration-none">Giới Thiệu</a>
         </div>
         <div class="col-lg-4 p-4">
-            <h5 class="mb-3">Follow us</h5>
+            <h5 class="mb-3">Mạng Xã Hội</h5>
             <?php 
                 if($contact_r['tw']!=''){
                     echo<<<data

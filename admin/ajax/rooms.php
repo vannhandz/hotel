@@ -65,10 +65,10 @@
         while($row=mysqli_fetch_assoc($res)){
 
             if($row['status']==1){
-                $status="<button onclick='toggle_status($row[id],0)' class='btn btn-dark bth-sm shadow-none'>Active</button>";
+                $status="<button onclick='toggle_status($row[id],0)' class='btn btn-dark bth-sm shadow-none'>Hoạt Động</button>";
             }else
             {
-                $status="<button onclick='toggle_status($row[id],1)' class='btn btn-warning bth-sm shadow-none'>Inactive</button>";
+                $status="<button onclick='toggle_status($row[id],1)' class='btn btn-warning bth-sm shadow-none'>Vô Hiệu Hóa</button>";
             }
 
             $data .= "
@@ -78,10 +78,10 @@
                     <td>$row[area]</td>
                     <td>
                         <span class='badge rounded-pill bg-light text-dark'>
-                            Adult: $row[adult]
+                            Người Lớn: $row[adult]
                         </span><br>
                         <span class='badge rounded-pill bg-light text-dark'>
-                            Children: $row[children]
+                            Trẻ Em: $row[children]
                         </span>
                     </td>
                     <td>" . number_format($row['price']) . " VND</td>

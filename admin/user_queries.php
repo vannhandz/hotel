@@ -65,16 +65,16 @@
     <div class="container-fluid" id="main-content">
         <div class="row">
             <div class="col-lg-10 ms-auto p-4 overflow-hidden">
-                <h3 class="mb-4">USER QUERIES</h3>
+                <h3 class="mb-4">YÊU CẦU NGƯỜI DÙNG</h3>
 
                 <div class="card border-0 shadow-sm mb-4">
                     <div class="card-body">
 
                         <div class="text-end mb-4">
                             <a href='?seen=all' class='btn btn-sm btn-dark rounded-pill btn-primary'>
-                            <i class="bi bi-check-all"></i> Read All</a>
+                            <i class="bi bi-check-all"></i> Đọc Tất Cả</a>
                             <a href='?del=all' class='btn btn-sm rounded-pill btn-danger'>
-                            <i class="bi bi-trash3-fill"></i> Delete All</a>
+                            <i class="bi bi-trash3-fill"></i> Xóa Tất Cả</a>
                         </div>
 
 
@@ -84,12 +84,12 @@
                                 <thead class="sticky-top">
                                     <tr class="bg-dark text-light">
                                         <th scope="col">#</th>
-                                        <th scope="col">Name</th>
+                                        <th scope="col">Tên</th>
                                         <th scope="col">Email</th>
-                                        <th scope="col" width="20%">Subject</th>
-                                        <th scope="col" width="30%">Message</th>
-                                        <th scope="col">Date</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col" width="20%">Chủ Đề</th>
+                                        <th scope="col" width="30%">Tin Nhắn</th>
+                                        <th scope="col">Ngày Yêu Cầu</th>
+                                        <th scope="col">Hoạt động</th>
                                     </tr>
                                 </thead>
                                 <tbody>

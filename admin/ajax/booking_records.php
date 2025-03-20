@@ -58,14 +58,14 @@ if (isset($_POST['get_bookings'])) {
             <td>
                 <span class='badge bg-primary'>Invoice Id: $data[invoice_id]</span>
                 <br>
-                <b>Name:</b> $data[name]
+                <b>Tên:</b> $data[name]
                 <br>
-                <b>Phone No:</b> $data[phonenum]
+                <b>Số Điện Thoại:</b> $data[phonenum]
             </td>
             <td>
-                <b>Room:</b> $data[room_name]
+                <b>Phòng:</b> $data[room_name]
                 <br>
-                <b>Price:</b> " . number_format($data['price']) . " VND
+                <b>Giá:</b> " . number_format($data['price']) . " VND
             </td>
             <td>
                 <b>Tổng Tiền:</b> " . number_format($data['total_amount']) . " VND
@@ -97,24 +97,24 @@ if (isset($_POST['get_bookings'])) {
 
         if($page!=1) {
             $pagination .="<li class='page-item'>
-              <button onclick='change_page(1)' class='page-link shadow-none'>First</button>
+              <button onclick='change_page(1)' class='page-link shadow-none'>Đầu</button>
             </li>";
         }
 
         $pagination .="<li class='page-item $disabled'>
-                        <button onclick='change_page($prev)' class='page-link shadow-none'>Prev</button>
+                        <button onclick='change_page($prev)' class='page-link shadow-none'>Trước</button>
                     </li>";
 
         $disabled = ($page==$total_pages) ? "disabled": "";
         $next = $page+1;
 
         $pagination .="<li class='page-item $disabled'>
-                        <button onclick='change_page($next)' class='page-link shadow-none'>Next</button>
+                        <button onclick='change_page($next)' class='page-link shadow-none'>Kế Tiếp</button>
                     </li>";
 
         if($page!=$total_pages) {
             $pagination .="<li class='page-item'>
-            <button onclick='change_page($total_pages)' class='page-link shadow-none'>Last</button>
+            <button onclick='change_page($total_pages)' class='page-link shadow-none'>Cuối</button>
             </li>";
             }            
     }

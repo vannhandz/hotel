@@ -23,10 +23,10 @@
                 // $del_btn="";
             }
 
-            $status="<button onclick='toggle_status($row[id],0)' class='btn btn-dark bth-sm shadow-none'>Active</button>";
+            $status="<button onclick='toggle_status($row[id],0)' class='btn btn-dark bth-sm shadow-none'>Hoạt Động</button>";
 
             if(!$row['status']) {
-                $status="<button onclick='toggle_status($row[id],1)' class='btn btn-danger bth-sm shadow-none'>Inactive</button>";
+                $status="<button onclick='toggle_status($row[id],1)' class='btn btn-danger bth-sm shadow-none'>Vô Hiệu Hóa</button>";
             }
             $date = date("d-m-Y", strtotime($row['datentime']));
 

@@ -22,11 +22,11 @@
     <div class="container">
         <div class="row">
             <div class="col-12 my-5 px-4">
-                <h2 class="fw-bold">BOOKINGS</h2>
+                <h2 class="fw-bold">Đặt Phòng</h2>
                 <div style="font-size:14px">
-                    <a href="index.php" class="text-secondary text-decoration-none">HOME</a>
+                    <a href="index.php" class="text-secondary text-decoration-none">Trang Chủ</a>
                     <span class="text-secondary"> > </span>
-                    <a href="#" class="text-secondary text-decoration-none">BOOKINGS</a>
+                    <a href="#" class="text-secondary text-decoration-none">Đặt Phòng</a>
                 </div>
             </div>
 
@@ -60,7 +60,7 @@
                             $btn = "<a href='generate_pdf.php?gen_pdf&id=$data[booking_id]' class='btn btn-dark btn-sm shadow-none'>Download PDF </a>
                             ";
                             if ($data['rate_review'] == 0) {
-                                $btn .= "<button type='button' onclick='review_room($data[booking_id], $data[room_id])' data-bs-toggle='modal' data-bs-target='#reviewModal' class='btn btn-dark btn-sm shadow-none ms-2'>Xếp hạng và Đánh giá</button>";
+                                $btn .= "<button type='button' onclick='review_room($data[booking_id], $data[room_id])' data-bs-toggle='modal' data-bs-target='#reviewModal' class='btn btn-dark btn-sm shadow-none ms-2'>Xếp Hạng & Đánh Giá</button>";
                             }
                         }else{
                             
@@ -91,15 +91,15 @@
                         <div class='col-md-4 px-4 mb-4'>
                             <div class='bg-white p-3 rounded shadow-sm'>
                                 <h5 class='fw-bold'>$data[room_name]</h5>
-                                <b>Price:</b> $formatted_price VND Mỗi đêm
+                                <b>Giá:</b> $formatted_price VND Mỗi đêm
                                 <p>
                                     <b>Check in: </b> $checkin <br>
                                     <b>Check out: </b> $checkout
                                 </p>
                                 <p>
-                                    <b>Amount: </b> $formatted_price_total VND<br>
+                                    <b>Tổng Tiền: </b> $formatted_price_total VND<br>
                                     <b>Order ID: </b> $data[invoice_id] <br>
-                                    <b>Date: </b> $date
+                                    <b>Ngày Đặt: </b> $date
                                 </p>
                                 <p>
                                     <span class='badge $status_bg'>$data[booking_status]</span>
@@ -117,20 +117,20 @@
     </div>
 
     
-        <!-- login -->
+        
     <div class="modal fade" id="reviewModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form id="review-form">
                     <div class="modal-header">
-                        <h5 class="modal-title d-flex align-items-center"><i class="bi bi-chat-square-heart-fill fs-3 me-2"></i>Xếp hạng và Đánh giá</h5>
+                        <h5 class="modal-title d-flex align-items-center"><i class="bi bi-chat-square-heart-fill fs-3 me-2"></i>Xếp hạng & Đánh giá</h5>
                         <button type="reset" class="btn-close shadow-none" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label">Đánh giá</label>
+                            <label class="form-label">Xếp Hạng</label>
                             <select class="form-select shadow-none" name="rating">
                                 <option value="5">Tuyệt vời</option>
                                 <option value="4">Hài lòng</option>
@@ -140,7 +140,7 @@
                             </select>
                         </div>
                         <div class="mb-4">
-                            <label class="form-label">Review</label>
+                            <label class="form-label">Đánh Giá</label>
                             <textarea type="password" name="review" rows="3" required class="form-control shadow-none"></textarea>
                             </div>
 
@@ -148,7 +148,7 @@
                             <input type="hidden" name="room_id">
 
                             <div class="text-end">
-                            <button type="submit" class="btn custom-bg text-white shadow-none">SUBMIT</button>
+                            <button type="submit" class="btn custom-bg text-white shadow-none">Gửi</button>
                         </div>
                     </div>
                 </form>
@@ -167,7 +167,6 @@
     ?>
 
     <?php require('inc/footer.php') ?>
-    <?php require('chat.php') ?>
 
     <script>
     function cancel_booking(id)

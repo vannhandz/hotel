@@ -23,7 +23,7 @@ function getRoomsData() {
             
             // Định dạng giá phòng
             $formattedPrice = number_format($row['price'], 0, ',', '.');
-            $roomsData .= ", giá {$formattedPrice}đ/đêm";
+            $roomsData .= ", giá {$formattedPrice}VND/đêm";
             
             // Thêm diện tích nếu có
             if ($row['area'] > 0) {

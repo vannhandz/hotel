@@ -42,7 +42,7 @@ adminLogin();
         <div class="row">
             <div class="col-lg-10 ms-auto p-4 overflow-hidden">
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h3>DASHBOARD</h3>
+                    <h3>BẢNG ĐIỀU KHIỂN</h3>
                     <?php
                         if($is_shutdown['shutdown']){
                             echo <<<data
@@ -56,7 +56,7 @@ adminLogin();
                     <div class="col-md-3 mb-4">
                         <a href="new_bookings.php" class="text-decoration-none">
                         <div class="card text-center text-success p-3">
-                            <h6>New Bookings</h6>
+                            <h6>Đặt Phòng Mới</h6>
                             <h1 class="mt-2 mb-0"><?php echo $current_bookings['new_bookings'] ?></h1>
                         </div>
                         </a>
@@ -64,7 +64,7 @@ adminLogin();
                     <div class="col-md-3 mb-4">
                         <a href="refund_bookings.php" class="text-decoration-none">
                         <div class="card text-center text-warning p-3">
-                            <h6>Refund Bookings</h6>
+                            <h6>Hoàn Tiền Đặt Phòng</h6>
                             <h1 class="mt-2 mb-0"><?php echo $current_bookings['refund_bookings'] ?></h1>
                         </div>
                         </a>
@@ -72,7 +72,7 @@ adminLogin();
                     <div class="col-md-3 mb-4">
                         <a href="user_queries.php" class="text-decoration-none">
                         <div class="card text-center text-info p-3">
-                            <h6>User Queries</h6>
+                            <h6>Yêu Cầu Của Người Dùng</h6>
                             <h1 class="mt-2 mb-0"><?php echo $unread_queries['count'] ?></h1>
                         </div>
                         </a>
@@ -80,7 +80,7 @@ adminLogin();
                     <div class="col-md-3 mb-4">
                         <a href="rate_review.php" class="text-decoration-none">
                         <div class="card text-center text-info p-3">
-                            <h6>Rating & Review</h6>
+                            <h6>Xếp Hạng & Đánh Giá</h6>
                             <h1 class="mt-2 mb-0"><?php echo $unread_reviews['count'] ?></h1>
                         </div>
                         </a>
@@ -88,33 +88,33 @@ adminLogin();
                 </div>
 
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <h5>Booking Analytics</h5>
+                    <h5>Phân tích đặt phòng</h5>
                     <select class="form-select shadow-none bg-light w-auto" onchange="booking_analytics(this.value)">
-                        <option value="1">Past 30 Days</option>
-                        <option value="2">Past 90 Days</option>
-                        <option value="3">Past 1 Year</option>
-                        <option value="4">All time</option>
+                        <option value="1">30 ngày qua</option>
+                        <option value="2">90 ngày qua</option>
+                        <option value="3">1 năm qua</option>
+                        <option value="4">Tất Cả</option>
                     </select>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-3 mb-4">
                         <div class="card text-center text-primary p-3">
-                            <h6>Total Bookings</h6>
+                            <h6>Tổng Doanh Thu</h6>
                             <h1 class="mt-2 mb-0" id="total_bookings">0</h1>
                             <h4 class="mt-2 mb-0" id="total_amt">5 VND</h4>
                         </div>
                     </div>
                     <div class="col-md-3 mb-4">
                         <div class="card text-center text-success p-3">
-                            <h6>Active Bookings</h6>
+                            <h6>Hoàn Tất Nhận Phòng</h6>
                             <h1 class="mt-2 mb-0" id="active_bookings">0</h1>
                             <h4 class="mt-2 mb-0" id="active_amt">0 VND</h4>
                         </div>
                     </div>
                     <div class="col-md-3 mb-4">
                         <div class="card text-center text-warning p-3">
-                            <h6>Refund Bookings</h6>
+                            <h6>Hoàn Tiền Đặt Phòng</h6>
                             <h1 class="mt-2 mb-0" id="cancelled_bookings">5</h1>
                             <h4 class="mt-2 mb-0" id="cancelled_amt">5 VND</h4>
                         </div>
@@ -122,59 +122,59 @@ adminLogin();
                 </div>
 
                 <div class="d-flex align-items-center justify-content-between mb-3">
-                    <h5>User,Queries,Review Analytics</h5>
+                    <h5>Xem Xét</h5>
                     <select class="form-select shadow-none bg-light w-auto" onchange="user_analytics(this.value)">
-                        <option value="1">Past 30 Days</option>
-                        <option value="2">Past 90 Days</option>
-                        <option value="3">Past 1 Year</option>
-                        <option value="4">All time</option>
+                        <option value="1">30 ngày qua</option>
+                        <option value="2">90 ngày qua</option>
+                        <option value="3">1 năm qua</option>
+                        <option value="4">Tất Cả</option>
                     </select>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-md-3 mb-4">
                         <div class="card text-center text-success p-3">
-                            <h6>New Registration</h6>
+                            <h6>Đăng Ký Mới</h6>
                             <h1 class="mt-2 mb-0" id="total_new_reg">5</h1>
                         </div>
                     </div>
                     <div class="col-md-3 mb-4">
                         <div class="card text-center text-primary p-3">
-                            <h6>Queries</h6>
+                            <h6>Yêu Cầu</h6>
                             <h1 class="mt-2 mb-0" id="total_queries">5</h1>
                         </div>
                     </div>
                     <div class="col-md-3 mb-4">
                         <div class="card text-center text-primary p-3">
-                            <h6>Review</h6>
+                            <h6>Đánh Giá</h6>
                             <h1 class="mt-2 mb-0" id="total_reviews">5</h1>
                         </div>
                     </div>
                 </div>
 
-                <h5>Users</h5>
+                <h5>Người Dùng</h5>
                 <div class="row mb-3">
                     <div class="col-md-3 mb-4">
                         <div class="card text-center text-info p-3">
-                            <h6>Total</h6>
+                            <h6>Tổng</h6>
                             <h1 class="mt-2 mb-0"><?php echo $current_users['total'] ?></h1>
                         </div>
                     </div>
                     <div class="col-md-3 mb-4">
                         <div class="card text-center text-success p-3">
-                            <h6>Active </h6>
+                            <h6>Hoạt Động </h6>
                             <h1 class="mt-2 mb-0"><?php echo $current_users['active'] ?></h1>
                         </div>
                     </div>
                     <div class="col-md-3 mb-4">
                         <div class="card text-center text-warning p-3">
-                            <h6>Inactive</h6>
+                            <h6>Đình Chỉ</h6>
                             <h1 class="mt-2 mb-0"><?php echo $current_users['inactive'] ?></h1>
                         </div>
                     </div>
                     <div class="col-md-3 mb-4">
                         <div class="card text-center text-danger p-3">
-                            <h6>Unverified</h6>
+                            <h6>Chưa Xác Minh</h6>
                             <h1 class="mt-2 mb-0"><?php echo $current_users['unverified'] ?></h1>
                         </div>
                     </div>

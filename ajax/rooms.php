@@ -116,7 +116,7 @@
                 if (isset($_SESSION['login']) && $_SESSION['login'] == true) {
                     $login = 1;
                 }
-                $book_btn = "<button onclick='checkLoginToBook($login,$room_data[id])' class='btn btn-sm w-100 text-white custom-bg shadow-none mb-2'>Book Now</button>";
+                $book_btn = "<button onclick='checkLoginToBook($login,$room_data[id])' class='btn btn-sm w-100 text-white custom-bg shadow-none mb-2'>Đặt Ngay</button>";
             }
             // print romm
         
@@ -129,27 +129,27 @@
                         <div class='col-md-5 px-lg-3 px-md-3 px-0'>
                             <h5 class='mb-3'>$room_data[name]</h5>
                             <div class='features mb-3'>
-                                <h6 class='mb-1'>Features</h6>
+                                <h6 class='mb-1'>Tính Năng</h6>
                                 $features_data
                             </div>
                             <div class='facilities mb-3'>
-                                <h6 class='mb-1'>Facilities</h6>
+                                <h6 class='mb-1'>Tiện Nghi</h6>
                                 $facilities_data
                             </div>
                             <div class='guests'>
-                                <h6 class='mb-1'>Guests</h6>
+                                <h6 class='mb-1'>Người Lớn</h6>
                                 <span class='badge rounded-pill bg-light text-dark text-wrap'>
                                     $room_data[adult] Adults
                                 </span>
                                 <span class='badge rounded-pill bg-light text-dark text-wrap'>
-                                    $room_data[children] Children
+                                    $room_data[children] Trẻ Em
                                 </span>
                             </div>
                         </div>
                         <div class='col-md-2 mt-lg-0 mt-md-0 mt-4 text-center'>
                             <h6 class='mb-4'>" . number_format($room_data['price'], 0, ',', '.') . " VND mỗi đêm</h6>
                             $book_btn
-                            <a href='room_details.php?id=$room_data[id]' class='btn btn-sm w-100 btn-outline-dark shadow-none'>More details</a>
+                            <a href='room_details.php?id=$room_data[id]' class='btn btn-sm w-100 btn-outline-dark shadow-none'>Chi Tiết</a>
                         </div>
                     </div>
                 </div>

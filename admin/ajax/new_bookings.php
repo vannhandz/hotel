@@ -35,14 +35,14 @@
                 <td>
                     <span class='badge bg-primary'>Invoice Id: $data[invoice_id]</span>
                     <br>
-                    <b>Name:</b> $data[name]
+                    <b>Tên:</b> $data[name]
                     <br>
-                    <b>Phone No:</b> $data[phonenum]
+                    <b>Số Điện Thoại:</b> $data[phonenum]
                 </td>
                 <td>
-                    <b>Room:</b> $data[room_name]
+                    <b>Phòng:</b> $data[room_name]
                     <br>
-                    <b>Price:</b> " . number_format($data['price']) . " VND
+                    <b>Giá:</b> " . number_format($data['price']) . " VND
                 </td>
                 <td>
                     <b>Check-in:</b> $checkin
