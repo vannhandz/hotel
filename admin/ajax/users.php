@@ -12,21 +12,21 @@
         
         while($row = mysqli_fetch_assoc($res)) {
 
-            $del_btn=" <button type='button' onclick='remove_user($row[id])' class='btn btn-danger shadow-none btn-sm'>
+            $del_btn=" <button type='button' onclick='remove_user($row[id])' class='btn btn-danger btn-action shadow-none btn-sm'>
                             <i class='bi bi-trash'></i>
                         </button> ";
 
-            $verified = "<span class='badge bg-warning'><i class='bi bi-x-lg'></i></span>";
+            $verified = "<span data-verified='no'>Không</span>";
 
             if($row['is_verified']) {
-                $verified = "<span class='badge bg-success'><i class='bi bi-check-lg'></i></span>";
+                $verified = "<span data-verified='yes'>Có</span>";
                 // $del_btn="";
             }
 
-            $status="<button onclick='toggle_status($row[id],0)' class='btn btn-dark bth-sm shadow-none'>Hoạt Động</button>";
+            $status="<span data-status='active' onclick='toggle_status($row[id],0)' class='btn btn-sm btn-action btn-primary'>Hoạt Động</span>";
 
             if(!$row['status']) {
-                $status="<button onclick='toggle_status($row[id],1)' class='btn btn-danger bth-sm shadow-none'>Vô Hiệu Hóa</button>";
+                $status="<span data-status='inactive' onclick='toggle_status($row[id],1)' class='btn btn-sm btn-action btn-danger'>Vô Hiệu Hóa</span>";
             }
             $date = date("d-m-Y", strtotime($row['datentime']));
 
@@ -83,21 +83,21 @@
         
         while($row = mysqli_fetch_assoc($res)) {
 
-            $del_btn=" <button type='button' onclick='remove_user($row[id])' class='btn btn-danger shadow-none btn-sm'>
+            $del_btn=" <button type='button' onclick='remove_user($row[id])' class='btn btn-danger btn-action shadow-none btn-sm'>
                             <i class='bi bi-trash'></i>
                         </button> ";
 
-            $verified = "<span class='badge bg-warning'><i class='bi bi-x-lg'></i></span>";
+            $verified = "<span data-verified='no'>Không</span>";
 
             if($row['is_verified']) {
-                $verified = "<span class='badge bg-success'><i class='bi bi-check-lg'></i></span>";
+                $verified = "<span data-verified='yes'>Có</span>";
                 // $del_btn="";
             }
 
-            $status="<button onclick='toggle_status($row[id],0)' class='btn btn-dark bth-sm shadow-none'>Active</button>";
+            $status="<span data-status='active' onclick='toggle_status($row[id],0)' class='btn btn-sm btn-action btn-primary'>Hoạt Động</span>";
 
             if(!$row['status']) {
-                $status="<button onclick='toggle_status($row[id],1)' class='btn btn-danger bth-sm shadow-none'>Inactive</button>";
+                $status="<span data-status='inactive' onclick='toggle_status($row[id],1)' class='btn btn-sm btn-action btn-danger'>Vô Hiệu Hóa</span>";
             }
             $date = date("d-m-Y", strtotime($row['datentime']));
 

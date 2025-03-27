@@ -19,7 +19,7 @@
         $table_data = "";
 
         if(mysqli_num_rows($res)==0){
-            echo "<b>Không tìm thấy dữ liệu!</b>";
+            echo "<tr><td colspan='5' class='text-center py-5'><h6 class='fw-bold'>Không tìm thấy dữ liệu!</h6></td></tr>";
             exit;
         }
 
@@ -33,26 +33,37 @@
             <tr>
                 <td>$i</td>
                 <td>
-                    <span class='badge bg-primary'>Invoice Id: $data[invoice_id]</span>
-                    <br>
-                    <b>Tên:</b> $data[name]
-                    <br>
-                    <b>Số Điện Thoại:</b> $data[phonenum]
+                    <div class='user-detail-box'>
+                        <div class='detail-title'>Invoice ID:</div>
+                        <div class='detail-content'>$data[invoice_id]</div>
+                        <div class='detail-title mt-2'>Tên khách hàng:</div>
+                        <div class='detail-content'>$data[name]</div>
+                        <div class='detail-title mt-2'>Số điện thoại:</div>
+                        <div class='detail-content'>$data[phonenum]</div>
+                    </div>
                 </td>
                 <td>
-                    <b>Phòng:</b> $data[room_name]
-                    <br>
-                    <b>Check-in:</b> $checkin
-                    <br>
-                    <b>Check-out:</b> $checkout
-                    <br>
-                    <b>Ngày Đặt:</b> $date
+                    <div class='room-detail-box'>
+                        <div class='detail-title'>Tên phòng:</div>
+                        <div class='detail-content'>$data[room_name]</div>
+                        <div class='detail-title mt-2'>Giá phòng:</div>
+                        <div class='detail-content'>" . number_format($data['price']) . " VND</div>
+                    </div>
                 </td>
                 <td>
-                <b>Tổng Tiền:</b> " . number_format($data['total_amount']) . " VND
+                    <div class='booking-detail-box'>
+                        <div class='detail-title'>Tổng Tiền:</div>
+                        <div class='detail-content'>" . number_format($data['total_amount']) . " VND</div>
+                        <div class='detail-title mt-2'>Check-in:</div>
+                        <div class='detail-content'>$checkin</div>
+                        <div class='detail-title mt-2'>Check-out:</div>
+                        <div class='detail-content'>$checkout</div>
+                        <div class='detail-title mt-2'>Ngày đặt:</div>
+                        <div class='detail-content'>$date</div>
+                    </div>
                 </td>
                 <td>
-                    <button type='button' onclick='refund_booking($data[booking_id])' class=' btn btn-success btn-sm fw-bold shadow-none'>
+                    <button type='button' onclick='refund_booking($data[booking_id])' class='refund-btn'>
                     <i class='bi bi-cash-stack' ></i> Hoàn tiền
                     </button>
                 </td>

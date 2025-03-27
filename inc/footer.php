@@ -221,6 +221,7 @@
             } else if(this.responseText == 'invalid_pass') {
                 alert('error', "Mật khẩu sai!");
             } else {
+                alert('success', "Đăng nhập thành công");
                 let fileurl = window.location.href.split('/').pop().split('?').shift();
                 if (fileurl == 'room_details.php') {
                     window.location = window.location.href;

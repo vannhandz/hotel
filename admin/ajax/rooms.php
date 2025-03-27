@@ -65,38 +65,40 @@
         while($row=mysqli_fetch_assoc($res)){
 
             if($row['status']==1){
-                $status="<button onclick='toggle_status($row[id],0)' class='btn btn-dark bth-sm shadow-none'>Hoạt Động</button>";
+                $status="<button onclick='toggle_status($row[id],0)' class='room-status-btn room-status-active'>Hoạt Động</button>";
             }else
             {
-                $status="<button onclick='toggle_status($row[id],1)' class='btn btn-warning bth-sm shadow-none'>Vô Hiệu Hóa</button>";
+                $status="<button onclick='toggle_status($row[id],1)' class='room-status-btn room-status-inactive'>Vô Hiệu Hóa</button>";
             }
 
             $data .= "
-                <tr class='align-middle'>
+                <tr>
                     <td>$i</td>
                     <td>$row[name]</td>
                     <td>$row[area]</td>
                     <td>
-                        <span class='badge rounded-pill bg-light text-dark'>
+                        <span class='room-badge'>
                             Người Lớn: $row[adult]
                         </span><br>
-                        <span class='badge rounded-pill bg-light text-dark'>
+                        <span class='room-badge'>
                             Trẻ Em: $row[children]
                         </span>
                     </td>
-                    <td>" . number_format($row['price']) . " VND</td>
+                    <td><span class='room-price'>" . number_format($row['price']) . " VND</span></td>
                     <td>$row[quantity]</td>   
                     <td>$status</td>
                     <td>
-                        <button type='button' onclick='edit_details($row[id])' class='btn btn-primary shadow-none btn-sm' data-bs-toggle='modal' data-bs-target='#edit-room'>
-                            <i class='bi bi-pencil-square'></i>
-                        </button>
-                        <button type='button' onclick=\"room_images($row[id],'$row[name]')\" class='btn btn-info shadow-none btn-sm' data-bs-toggle='modal' data-bs-target='#room-images'>
-                            <i class='bi bi-images'></i>
-                        </button>
-                        <button type='button' onclick='remove_room($row[id])' class='btn btn-danger shadow-none btn-sm'>
-                            <i class='bi bi-trash'></i>
-                        </button>
+                        <div class='room-action'>
+                            <button type='button' onclick='edit_details($row[id])' class='room-action-btn room-action-edit' data-bs-toggle='modal' data-bs-target='#edit-room'>
+                                <i class='bi bi-pencil-square'></i>
+                            </button>
+                            <button type='button' onclick=\"room_images($row[id],'$row[name]')\" class='room-action-btn room-action-images' data-bs-toggle='modal' data-bs-target='#room-images'>
+                                <i class='bi bi-images'></i>
+                            </button>
+                            <button type='button' onclick='remove_room($row[id])' class='room-action-btn room-action-delete'>
+                                <i class='bi bi-trash'></i>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             ";
@@ -241,30 +243,33 @@
 
         $path =ROOMS_IMG_PATH;
 
-       
+        if(mysqli_num_rows($res)==0){
+            echo "<h3 class='text-center'>Không có ảnh</h3>";
+            exit;
+        }
+
+        $data = "";
+
         while($row = mysqli_fetch_assoc($res))
         {
-                if ($row['thumb'] == 1) {
-                  $thumb_btn = "<i class='bi bi-check-lg text-light bg-success px-2 py-1 rounded fs-5'></i>";
-                }else
-                {
-                    $thumb_btn= " <button onclick='thumb_image($row[sr_no],$row[room_id])' class='btn btn-secondary bth-sm shadow-none'>
-                            <i class='bi bi-check-lg'></i>
-                            </button>";
-                }
+            $thumb_btn = "";
+            if(!$row['thumb']){
+                $thumb_btn = "<button onclick='thumb_image($row[sr_no],$row[room_id])' class='image-btn thumb-btn'>
+                                <i class='bi bi-check-lg'></i> Thumb</button>";
+            }
 
-                echo<<<data
-                    <tr class='align-middle'>
-                        <td><img src='$path$row[image]' class='img-fluid'></td>
-                        <td>$thumb_btn</td>
-                        <td>
-                            <button onclick='rem_image($row[sr_no],$row[room_id])' class='btn btn-danger bth-sm shadow-none'>
-                            <i class='bi bi-trash'></i>
-                            </button>;
-                        </td>
-                    </tr>
-                data;
+            $data.="
+                <div class='image-item'>
+                    <img src='$path$row[image]' alt='Room Image'>
+                    <div class='image-buttons'>
+                        $thumb_btn
+                        <button onclick='rem_image($row[sr_no],$row[room_id])' class='image-btn delete-image-btn'>
+                            <i class='bi bi-trash3'></i> Xóa</button>
+                    </div>
+                </div>
+            ";
         }
+        echo $data;
     }
 
 

@@ -80,22 +80,20 @@
 
     if(isset($_POST['get_members'])){
         $res = selectAll('team_details');
-        while($row = mysqli_fetch_assoc($res))
-        {
-            $path =ABOUT_IMG_PATH;
+        $path = ABOUT_IMG_PATH;
+        
+        while ($row = mysqli_fetch_assoc($res)) {
             echo <<<data
-                <div class="col-md-2 mb-3">
-                    <div class="card bg-dark text-white">
-                        <img src="$path$row[picture]" class="card-img">
-                        <div class="card-img-overlay text-end">
-                            <button type="button" onclick="rem_member($row[id_team])" class="btn btn-danger btn-sm shadow-none">
-                                <i class="bi bi-trash"></i>  Xóa
-                            </button>
-                        </div>
-                        <p class="card-text text-center px-3 py-2">$row[name]</p>
+                <div class="team-card">
+                    <img src="$path$row[picture]" class="team-card-img">
+                    <div class="team-card-body">
+                        <h5 class="team-name">$row[name]</h5>
+                        <button type="button" onclick="rem_member($row[id_team])" class="team-delete">
+                            <i class="bi bi-trash"></i> Xóa
+                        </button>
                     </div>
-                 </div>
-             data;
+                </div>
+            data;
         }
     }
 

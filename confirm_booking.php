@@ -202,6 +202,36 @@
                                         </div>
                                     </div>
                                     
+                                    <div class="payment-methods mb-3 d-none" id="payment_methods">
+                                        <h6 class="mb-3">Chọn phương thức thanh toán:</h6>
+                                        <div class="payment-method-options">
+                                            <div class="payment-method-option mb-0">
+                                                <input class="form-check-input" type="radio" name="payment_method" id="vnpay" value="vnpay" checked>
+                                                <label class="payment-method-label" for="vnpay">
+                                                    <div class="payment-method-icon">
+                                                        <i class="bi bi-credit-card-2-front-fill fs-3 text-primary"></i>
+                                                    </div>
+                                                    <div class="payment-method-info">
+                                                        <span class="payment-method-name">VNPay</span>
+                                                        <span class="payment-method-description">Thanh toán qua cổng VNPay an toàn và nhanh chóng</span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                            <div class="payment-method-option">
+                                                <input class="form-check-input" type="radio" name="payment_method" id="paypal" value="paypal">
+                                                <label class="payment-method-label" for="paypal">
+                                                    <div class="payment-method-icon">
+                                                        <i class="bi bi-credit-card-fill fs-3 text-primary"></i>
+                                                    </div>
+                                                    <div class="payment-method-info">
+                                                        <span class="payment-method-name">PayPal</span>
+                                                        <span class="payment-method-description">Thanh toán an toàn và nhanh chóng</span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     <button name="pay_now" class="btn pay-button w-100" disabled>
                                         Thanh Toán Ngay <i class="bi bi-credit-card-fill"></i>
                                     </button>
@@ -267,6 +297,7 @@
             let checkout_val = booking_form.elements['checkout'].value;
 
             booking_form.elements['pay_now'].setAttribute('disabled', true);
+            document.getElementById('payment_methods').classList.add('d-none');
 
             if (checkin_val != '' && checkout_val != '') {
                 pay_info.classList.add('d-none');
@@ -306,6 +337,7 @@
                         pay_info.classList.remove('danger', 'warning');
                         pay_info.classList.add('success');
                         booking_form.elements['pay_now'].removeAttribute('disabled');
+                        document.getElementById('payment_methods').classList.remove('d-none');
                     }
                     pay_info.classList.remove('d-none');
                     info_loader.classList.add('d-none');
@@ -325,6 +357,7 @@
             let room_id = '<?php echo $_SESSION['room']['id']; ?>';
             let user_id = '<?php echo $_SESSION['uId']; ?>';
             let room_price = '<?php echo $_SESSION['room']['price']; ?>'; 
+            let payment_method = document.querySelector('input[name="payment_method"]:checked').value;
 
             // Hiện loading
             info_loader.classList.remove('d-none');
@@ -337,10 +370,17 @@
             data.append('check_out', check_out);
             data.append('room_id', room_id);
             data.append('user_id', user_id);
-            data.append('room_price', room_price); 
+            data.append('room_price', room_price);
+
+            let paymentEndpoint;
+            if (payment_method === 'paypal') {
+                paymentEndpoint = "ajax/create_paypal_order.php";
+            } else if (payment_method === 'vnpay') {
+                paymentEndpoint = "ajax/create_vnpay_payment.php";
+            }
 
             let xhr = new XMLHttpRequest();
-            xhr.open("POST", "ajax/create_paypal_order.php", true);
+            xhr.open("POST", paymentEndpoint, true);
 
             xhr.onload = function () {
                 console.log("Dữ liệu trả về từ server: ", this.responseText); // Kiểm tra dữ liệu trả về
@@ -350,7 +390,11 @@
 
                     // Kiểm tra mã trạng thái trả về
                     if (response.status === 'success') {
-                        window.location.href = response.approval_url;  // Điều hướng đến URL thanh toán PayPal
+                        if (payment_method === 'paypal') {
+                            window.location.href = response.approval_url;  // Điều hướng đến URL thanh toán PayPal
+                        } else if (payment_method === 'vnpay') {
+                            window.location.href = response.payment_url;  // Điều hướng đến URL thanh toán VNPay
+                        }
                     } else {
                         alert('Lỗi: ' + response.message);  // Hiển thị thông báo lỗi
                         
@@ -406,6 +450,89 @@
             }
         });
     </script>
+
+    <style>
+        /* Tùy chỉnh giao diện phương thức thanh toán */
+        .payment-method-options {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .payment-method-option {
+            position: relative;
+            padding: 0;
+        }
+        
+        .payment-method-option + .payment-method-option {
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .payment-method-option .form-check-input {
+            position: absolute;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            margin: 0;
+            z-index: 2;
+        }
+        
+        .payment-method-label {
+            display: flex;
+            align-items: center;
+            padding: 15px 15px 15px 45px;
+            margin: 0;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .payment-method-option:hover .payment-method-label {
+            background-color: #f8f9fa;
+        }
+        
+        .payment-method-option input:checked + .payment-method-label {
+            background-color: #f0f7ff;
+        }
+        
+        .payment-method-icon {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+        }
+        
+        .payment-method-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .payment-method-name {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+        
+        .payment-method-description {
+            font-size: 12px;
+            color: #6c757d;
+        }
+        
+        .pay-button {
+            background-color: #0d6efd;
+            border: none;
+            padding: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .pay-button:hover {
+            background-color: #0a58ca;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 
 </body>
 

@@ -57,6 +57,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - User Queries</title>
     <?php require('inc/link.php'); ?>
+    <link rel="stylesheet" href="css/user_queries.css">
 </head>
 
 <body class="bg-light">
@@ -65,24 +66,22 @@
     <div class="container-fluid" id="main-content">
         <div class="row">
             <div class="col-lg-10 ms-auto p-4 overflow-hidden">
-                <h3 class="mb-4">YÊU CẦU NGƯỜI DÙNG</h3>
+                <h3 class="queries-page-title">YÊU CẦU NGƯỜI DÙNG</h3>
 
-                <div class="card border-0 shadow-sm mb-4">
+                <div class="card queries-card mb-4">
                     <div class="card-body">
 
-                        <div class="text-end mb-4">
-                            <a href='?seen=all' class='btn btn-sm btn-dark rounded-pill btn-primary'>
+                        <div class="queries-action-bar">
+                            <a href='?seen=all' class='queries-btn queries-btn-primary'>
                             <i class="bi bi-check-all"></i> Đọc Tất Cả</a>
-                            <a href='?del=all' class='btn btn-sm rounded-pill btn-danger'>
+                            <a href='?del=all' class='queries-btn queries-btn-danger'>
                             <i class="bi bi-trash3-fill"></i> Xóa Tất Cả</a>
                         </div>
 
-
-
-                        <div class="table-responsive-md" style="height:450px ; overflow-y:scroll">
-                            <table class="table table-hover border">
-                                <thead class="sticky-top">
-                                    <tr class="bg-dark text-light">
+                        <div class="queries-table-container">
+                            <table class="table queries-table">
+                                <thead>
+                                    <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Tên</th>
                                         <th scope="col">Email</th>
@@ -99,20 +98,22 @@
                                         $i=1;
 
                                         while($row = mysqli_fetch_assoc($data)){
-
-                                            $seen='';
+                                            $date = date('d-m-Y', strtotime($row['datentime']));
+                                            
+                                            $seen='<div class="query-action">';
                                             if($row['seen']!=1){
-                                                $seen="<a href='?seen=$row[sr_no]' class='btn btn-sm rounded-pill btn-primary'>Read</a>";
+                                                $seen.="<a href='?seen=$row[sr_no]' class='btn query-action-btn query-read'>Đọc</a>";
                                             }
-                                            $seen.="<a href='?del=$row[sr_no]' class='btn btn-sm rounded-pill btn-danger'>Delete</a>";
+                                            $seen.="<a href='?del=$row[sr_no]' class='btn query-action-btn query-delete'>Xóa</a>";
+                                            $seen.='</div>';
                                             echo<<<query
                                                 <tr>
                                                     <td>$i</td>
-                                                    <td>$row[name]</td>
-                                                    <td>$row[email]</td>
-                                                    <td>$row[subject]</td>
-                                                    <td>$row[message]</td>
-                                                    <td>$row[datentime]</td>
+                                                    <td><div class="query-name">$row[name]</div></td>
+                                                    <td><div class="query-email">$row[email]</div></td>
+                                                    <td><div class="query-subject">$row[subject]</div></td>
+                                                    <td><div class="query-message">$row[message]</div></td>
+                                                    <td><div class="query-date">$date</div></td>
                                                     <td>$seen</td>
                                                 </tr>
                                             query;

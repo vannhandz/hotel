@@ -1,0 +1,205 @@
+:root {
+    --primary: #2ac1ac;
+    --primary-hover: #279e8c;
+    --secondary: #6c757d;
+    --dark: #343a40;
+    --light: #f8f9fa;
+    --success: #28a745;
+    --danger: #dc3545;
+    --warning: #ffc107;
+    --info: #17a2b8;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --radius: 8px;
+    --transition: all 0.3s ease;
+}
+
+/* Header styles */
+.admin-header {
+    background: linear-gradient(135deg, var(--dark) 0%, #212529 100%);
+    padding: 15px 25px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.admin-logo {
+    font-family: 'Merienda', cursive;
+    color: white;
+    font-size: 1.8rem;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+}
+
+.admin-logo::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 50px;
+    height: 2px;
+    background-color: var(--primary);
+    transition: var(--transition);
+}
+
+.admin-logo:hover::after {
+    width: 100%;
+}
+
+.logout-btn {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: var(--transition);
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-color: white;
+}
+
+/* Sidebar styles */
+.admin-sidebar {
+    background-color: var(--dark);
+    border-top: 3px solid var(--primary);
+    min-height: calc(100vh - 62px);
+    z-index: 999;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-title {
+    color: white;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    padding: 15px 0;
+    margin-bottom: 0;
+}
+
+.admin-menu {
+    padding: 0 15px;
+}
+
+.admin-nav-link {
+    color: rgba(255, 255, 255, 0.8) !important;
+    border-radius: var(--radius);
+    transition: var(--transition);
+    margin-bottom: 5px;
+    font-weight: 500;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.admin-nav-link i {
+    margin-right: 10px;
+    font-size: 1.1rem;
+}
+
+.admin-nav-link:hover, 
+.admin-nav-link.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white !important;
+}
+
+.admin-dropdown-btn {
+    width: 100%;
+    text-align: left;
+    background-color: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: var(--radius);
+    transition: var(--transition);
+    margin-bottom: 5px;
+    font-weight: 500;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.admin-dropdown-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.admin-dropdown-btn i:first-child {
+    margin-right: 10px;
+    font-size: 1.1rem;
+}
+
+.admin-dropdown-menu {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: var(--radius);
+    margin-top: 5px;
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+.admin-dropdown-item {
+    color: rgba(255, 255, 255, 0.7) !important;
+    border-radius: 4px;
+    transition: var(--transition);
+    font-weight: 400;
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    margin-bottom: 2px;
+    display: block;
+    text-decoration: none;
+}
+
+.admin-dropdown-item:hover, 
+.admin-dropdown-item.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white !important;
+}
+
+/* Main content */
+#main-content {
+    transition: var(--transition);
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+    .admin-sidebar {
+        position: fixed;
+        top: 62px;
+        left: 0;
+        right: 0;
+        min-height: auto;
+        z-index: 999;
+    }
+    
+    #main-content {
+        margin-top: 60px;
+    }
+    
+    .admin-title {
+        display: none;
+    }
+    
+    .admin-menu {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 767px) {
+    .admin-logo {
+        font-size: 1.5rem;
+    }
+    
+    .admin-header {
+        padding: 10px 15px;
+    }
+    
+    .logout-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+} 

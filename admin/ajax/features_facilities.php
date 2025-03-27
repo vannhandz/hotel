@@ -25,8 +25,8 @@
                     <td>$i</td>
                     <td>$row[name]</td>
                     <td>
-                        <button type="button" onclick="rem_feature($row[id])" class="btn btn-danger btn-sm shadow-none">
-                            <i class="bi bi-trash"></i>  Xóa
+                        <button type="button" onclick="rem_feature($row[id])" class="feature-action-btn feature-delete-btn">
+                            <i class="bi bi-trash"></i>
                         </button>
                     </td>
                 </tr>
@@ -81,14 +81,14 @@
         {
             
             echo <<<data
-                <tr class='align-middle'>
+                <tr>
                     <td>$i</td>
-                    <td><img src="$path$row[icon]" width="40px"></td>
+                    <td><img src="$path$row[icon]" alt="Icon" class="facility-icon"></td>
                     <td>$row[name]</td>
                     <td>$row[description]</td>
                     <td>
-                        <button type="button" onclick="rem_facility($row[id])" class="btn btn-danger btn-sm shadow-none">
-                            <i class="bi bi-trash"></i>  Xóa
+                        <button type="button" onclick="rem_facility($row[id])" class="feature-action-btn feature-delete-btn">
+                            <i class="bi bi-trash"></i>
                         </button>
                     </td>
                 </tr>

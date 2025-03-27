@@ -1,0 +1,329 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #34495e;
+    --accent-color: #3498db;
+    --success-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --info-color: #3498db;
+    --light-color: #ecf0f1;
+    --dark-color: #2c3e50;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --hover-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    --transition: all 0.3s ease;
+}
+
+.rooms-page-title {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding-left: 15px;
+    display: inline-block;
+}
+
+.rooms-page-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background-color: var(--accent-color);
+    border-radius: 10px;
+}
+
+.rooms-card {
+    border: none !important;
+    box-shadow: var(--card-shadow);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.rooms-action-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1.5rem;
+}
+
+.add-room-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: var(--transition);
+}
+
+.add-room-btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--hover-shadow);
+}
+
+.rooms-table-container {
+    max-height: 600px;
+    overflow-y: auto;
+    border-radius: 6px;
+}
+
+.rooms-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.rooms-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.rooms-table th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 15px;
+    font-weight: 500;
+    font-size: 14px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.rooms-table th:first-child {
+    border-top-left-radius: 6px;
+}
+
+.rooms-table th:last-child {
+    border-top-right-radius: 6px;
+}
+
+.rooms-table td {
+    padding: 12px 15px;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-size: 14px;
+    text-align: center;
+}
+
+.rooms-table tr {
+    transition: var(--transition);
+}
+
+.rooms-table tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+.room-badge {
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 50px;
+    background-color: var(--light-color);
+    color: var(--dark-color);
+    display: inline-block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.room-price {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.room-status-btn {
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    transition: var(--transition);
+}
+
+.room-status-active {
+    background-color: var(--dark-color);
+    color: white;
+}
+
+.room-status-inactive {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+.room-action {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.room-action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    transition: var(--transition);
+}
+
+.room-action-btn:hover {
+    transform: translateY(-2px);
+}
+
+.room-action-edit {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.room-action-images {
+    background-color: var(--info-color);
+    color: white;
+}
+
+.room-action-delete {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+/* Modal styling */
+.room-modal-title {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.room-form-label {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.room-modal .form-control {
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 8px 12px;
+}
+
+.room-modal .form-control:focus {
+    box-shadow: none;
+    border-color: var(--accent-color);
+}
+
+.feature-checkbox-group,
+.facility-checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.feature-checkbox,
+.facility-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.room-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.room-btn-cancel {
+    background-color: transparent;
+    color: var(--secondary-color);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 8px 15px;
+    border-radius: 6px;
+    transition: var(--transition);
+}
+
+.room-btn-submit {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    transition: var(--transition);
+}
+
+.room-btn-submit:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Image management modal */
+.images-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.image-item {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+}
+
+.image-item img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.image-buttons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 5px;
+    gap: 5px;
+}
+
+.image-btn {
+    flex: 1;
+    border: none;
+    border-radius: 4px;
+    padding: 4px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.thumb-btn {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.delete-image-btn {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .rooms-table-container {
+        max-height: none;
+        overflow-x: auto;
+    }
+    
+    .rooms-table td,
+    .rooms-table th {
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+    
+    .feature-checkbox-group,
+    .facility-checkbox-group {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+} 

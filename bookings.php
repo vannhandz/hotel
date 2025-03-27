@@ -125,6 +125,31 @@
                         $room_thumb = ROOMS_IMG_PATH . $thumb_res['image'];
                     }
 
+                    // Hiển thị thông tin phương thức thanh toán
+                    $payment_method = '';
+                    if(isset($data['payment_method'])) {
+                        if($data['payment_method'] == 'paypal') {
+                            $payment_method = '<div class="booking-details-item">
+                                <div class="booking-details-label">Thanh toán</div>
+                                <div class="booking-details-value">
+                                    <span class="badge bg-info">
+                                        <i class="bi bi-paypal me-1"></i> PayPal
+                                    </span>
+                                </div>
+                            </div>';
+                        } 
+                        else if($data['payment_method'] == 'bank_transfer') {
+                            $payment_method = '<div class="booking-details-item">
+                                <div class="booking-details-label">Thanh toán</div>
+                                <div class="booking-details-value">
+                                    <span class="badge bg-primary">
+                                        <i class="bi bi-bank me-1"></i> Chuyển khoản
+                                    </span>
+                                </div>
+                            </div>';
+                        }
+                    }
+
                     echo <<<bookings
                         <div class='col-lg-4 col-md-6 mb-4'>
                             <div class='booking-card'>
@@ -156,6 +181,7 @@
                                             <div class='booking-details-label'>Ngày Đặt</div>
                                             <div class='booking-details-value'>$date</div>
                                         </div>
+                                        $payment_method
                                     </div>
                                     <div class='booking-status'>
                                         <span class='badge $status_bg'>$status_text</span>

@@ -1,66 +1,105 @@
-<div class="container-fluid bg-dark text-light p-3 d-flex align-items-center justify-content-between sticky-top">
-    <h3 class="mb-0 h-font">HOTEL</h3>
-    <a href="logout.php" class="btn btn-light btn-sm">LOG OUT</a>
+<link rel="stylesheet" href="css/header.css">
+
+<div class="container-fluid admin-header d-flex align-items-center justify-content-between sticky-top">
+    <h3 class="admin-logo">HOTEL ADMIN</h3>
+    <a href="logout.php" class="logout-btn">ĐĂNG XUẤT <i class="bi bi-box-arrow-right"></i></a>
 </div>
 
-<div class="col-lg-2 bg-dark border-top border-3 border-secondary" id="dashboard-menu">
+<div class="col-lg-2 admin-sidebar" id="dashboard-menu">
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid flex-lg-column align-items-stretch">
-            <h4 class="mt-2 text-light">ADMIN PANEL</h4>
+            <h4 class="admin-title">QUẢN TRỊ HỆ THỐNG</h4>
             <button class="navbar-toggler shadow-none" type="button" data-bs-toggle="collapse"
                 data-bs-target="#adminDropdown" aria-controls="navbarNav" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse flex-lg-column align-items-stretch mt-2" id="adminDropdown">
+            <div class="collapse navbar-collapse flex-lg-column align-items-stretch mt-2 admin-menu" id="adminDropdown">
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="dashboard.php">Bảng Điều Khiển</a>
+                        <a class="admin-nav-link" href="dashboard.php">
+                            <i class="bi bi-speedometer2"></i> Bảng Điều Khiển
+                        </a>
                     </li>
                     <li class="nav-item">
                         <button
-                            class="btn text-white px-3 w-100 shadow-none text-start d-flex align-items-center justify-content-between"
+                            class="admin-dropdown-btn"
                             type="button" data-bs-toggle="collapse" data-bs-target="#bookingLinks">
-                            <span>Bookings</span>
+                            <span><i class="bi bi-calendar-check"></i> Đặt Phòng</span>
                             <span><i class="bi bi-caret-down-fill"></i></span>
                         </button>
-                        <div class="collapse show px-3 small mb-1" id="bookingLinks">
-                            <ul class="nav nav-pills flex-column rounded border border-secondary">
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" href="new_bookings.php">Đặt Phòng Mới</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" href="refund_bookings.php">Hoàn Tiền Đặt Phòng</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-white" href="booking_records.php">Danh Sách Đặt Phòng</a>
-                                </li>
-                            </ul>
+                        <div class="collapse show admin-dropdown-menu" id="bookingLinks">
+                            <a class="admin-dropdown-item" href="new_bookings.php">Đặt Phòng Mới</a>
+                            <a class="admin-dropdown-item" href="refund_bookings.php">Hoàn Tiền Đặt Phòng</a>
+                            <a class="admin-dropdown-item" href="booking_records.php">Danh Sách Đặt Phòng</a>
                         </div>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="users.php">Người Dùng</a>
+                        <a class="admin-nav-link" href="users.php">
+                            <i class="bi bi-people"></i> Người Dùng
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="user_queries.php">Yêu Cầu Của Người Dùng</a>
+                        <a class="admin-nav-link" href="user_queries.php">
+                            <i class="bi bi-question-circle"></i> Yêu Cầu Người Dùng
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="rate_review.php">Xếp Hạng & Đánh Giá</a>
+                        <a class="admin-nav-link" href="rate_review.php">
+                            <i class="bi bi-star"></i> Xếp Hạng & Đánh Giá
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="rooms.php">Phòng</a>
+                        <a class="admin-nav-link" href="rooms.php">
+                            <i class="bi bi-house-door"></i> Phòng
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="features_facilities.php">Tính Năng & Tiện Nghi</a>
+                        <a class="admin-nav-link" href="features_facilities.php">
+                            <i class="bi bi-gear"></i> Tính Năng & Tiện Nghi
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="carousel.php">Trình Chiếu</a>
+                        <a class="admin-nav-link" href="carousel.php">
+                            <i class="bi bi-images"></i> Trình Chiếu
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="setting.php">Cài Đặt</a>
+                        <a class="admin-nav-link" href="setting.php">
+                            <i class="bi bi-sliders"></i> Cài Đặt
+                        </a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 </div>
+
+<script>
+    // Lấy đường dẫn trang hiện tại
+    let currentPath = window.location.pathname;
+    let currentFile = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+    
+    // Đánh dấu mục được chọn
+    document.addEventListener('DOMContentLoaded', function() {
+        // Xử lý các liên kết trong menu
+        document.querySelectorAll('.admin-nav-link').forEach(link => {
+            if (link.getAttribute('href') === currentFile) {
+                link.classList.add('active');
+            }
+        });
+        
+        // Xử lý các liên kết trong dropdown
+        document.querySelectorAll('.admin-dropdown-item').forEach(link => {
+            if (link.getAttribute('href') === currentFile) {
+                link.classList.add('active');
+                
+                // Mở rộng phần dropdown nếu mục con được chọn
+                let dropdown = link.closest('.admin-dropdown-menu');
+                if (dropdown) {
+                    dropdown.classList.add('show');
+                }
+            }
+        });
+    });
+</script>

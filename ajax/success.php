@@ -24,6 +24,10 @@ $apiContext->setConfig([
     'mode' => 'sandbox', // Chế độ sandbox
 ]);
 
+// Biến kiểm tra trạng thái thanh toán
+$isSuccess = false;
+$errorMessage = '';
+
 try {
     // Lấy thông tin thanh toán từ PayPal
     $payment = Payment::get($paymentId, $apiContext);
@@ -37,86 +41,164 @@ try {
 
     // Kiểm tra trạng thái thanh toán
     if ($result->getState() === 'approved') {
+        $isSuccess = true;
+        
         // Lấy thông tin từ session
         session_start();
         $room_name = $_SESSION['room_name'];
         $number_of_nights = $_SESSION['number_of_nights'];
-        // $total_amount = floatval($_SESSION['total_amount']); // Chuyển đổi thành số
-        // $total_amount_vnd = $total_amount * 25000;
         $check_in = $_SESSION['check_in'];
         $check_out = $_SESSION['check_out'];
         $room_id = $_SESSION['room_id'];
         $user_id = $_SESSION['user_id'];
-        $room_price=$_SESSION['room_price'];
-        $total= $room_price*$number_of_nights;
+        $room_price = $_SESSION['room_price'];
+        $total = $room_price * $number_of_nights;
 
         // Lấy Transaction ID và Invoice ID từ kết quả thanh toán
         $transactionId = $result->getTransactions()[0]->getRelatedResources()[0]->getSale()->getId();
         $invoiceId = $result->getTransactions()[0]->getInvoiceNumber();
-
-        // Định dạng số tiền sang VND
 
         // Định dạng ngày tháng theo dd/mm/yyyy
         $check_in_formatted = date('Y-m-d', strtotime($check_in));
         $check_out_formatted = date('Y-m-d', strtotime($check_out));
 
         // Thêm dữ liệu vào cơ sở dữ liệu
-        $query = "INSERT INTO `booking_order` (`user_id`, `room_id`, `room_name`,`check_in`, `check_out`, `number_of_nights`,`price`, `total_amount`, `payment_id`, `payer_id`, `transaction_id`, `invoice_id`) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO `booking_order` (`user_id`, `room_id`, `room_name`,`check_in`, `check_out`, `number_of_nights`,`price`, `total_amount`, `payment_id`, `payer_id`, `transaction_id`, `invoice_id`, `payment_method`) VALUES (?,?,?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($con, $query);
 
-        mysqli_stmt_bind_param($stmt, "iisssdddssss", $user_id, $room_id, $room_name , $check_in_formatted,
-            $check_out_formatted, $number_of_nights,  $room_price,$total, $paymentId, $payerId, $transactionId, $invoiceId); // Sửa chuỗi kiểu dữ liệu
+        $payment_method = 'paypal';
+        mysqli_stmt_bind_param($stmt, "iisssdddsssss", $user_id, $room_id, $room_name, $check_in_formatted,
+            $check_out_formatted, $number_of_nights, $room_price, $total, $paymentId, $payerId, $transactionId, $invoiceId, $payment_method);
 
-        $formatted_total = number_format($total, 0, ',', '.');    
-        if (mysqli_stmt_execute($stmt)) {
-            // Hiển thị thông báo thành công bằng SweetAlert2
-            echo '
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Thanh toán thành công</title>
-                    <link rel="stylesheet" href="css/style.css">
-                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-                </head>
-                <body>
-                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                    <script>
-                        Swal.fire({
-                            title: "Thanh toán thành công!",
-                            html: "Phòng: \'' . $room_name . '\'<br>Số ngày: ' . $number_of_nights . '<br>Tổng tiền: ' . $formatted_total . ' VND<br>Ngày nhận phòng: ' . date('d/m/Y', strtotime($check_in_formatted)) . '<br>Ngày trả phòng: ' . date('d/m/Y', strtotime($check_out_formatted)) . '",
-                            icon: "success",
-                            confirmButtonText: "OK",
-                            customClass: {
-                                popup: "custom-popup-class",
-                                confirmButton: "custom-confirm-button-class"
-                            }
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                 window.location.href = "../index.php";
-                            }
-                        });
-                    </script>
-                </body>
-                </html>
-            ';
-        } else {
-            echo "Lỗi khi thêm dữ liệu vào cơ sở dữ liệu: " . mysqli_error($con);
-        }
-
+        // Thực hiện lưu vào DB    
+        $booking_saved = mysqli_stmt_execute($stmt);
+        
         // Đóng statement
         mysqli_stmt_close($stmt);
-
-        // // Xóa session sau khi sử dụng
-        // session_unset();
-        // session_destroy();
+        
+        // Format số tiền
+        $formatted_total = number_format($total, 0, ',', '.');
     } else {
-        echo "<h1>Thanh toán không thành công.</h1>";
-        echo "<p>Vui lòng thử lại.</p>";
+        $errorMessage = 'Thanh toán không được chấp nhận';
     }
 } catch (Exception $ex) {
-    echo "<h1>Lỗi:</h1>";
-    echo "<p>" . $ex->getMessage() . "</p>";
+    $errorMessage = $ex->getMessage();
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kết quả thanh toán PayPal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/success.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-card">
+            <div class="success-header" style="background-color: <?php echo $isSuccess ? '#28a745' : '#dc3545'; ?>;">
+                <div class="success-icon">
+                    <i class="bi <?php echo $isSuccess ? 'bi-check-circle' : 'bi-x-circle'; ?>"></i>
+                </div>
+                <h2><?php echo $isSuccess ? 'Thanh Toán Thành Công' : 'Thanh Toán Thất Bại'; ?></h2>
+                <div class="subheading">
+                    <?php echo $isSuccess ? 'Đơn đặt phòng của bạn đã được xác nhận' : 'Đã xảy ra lỗi trong quá trình thanh toán'; ?>
+                </div>
+            </div>
+            
+            <div class="card-body p-4">
+                <?php if($isSuccess): ?>
+                <div class="alert-notification">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <p>Cảm ơn bạn đã đặt phòng. Chúng tôi đã nhận được thanh toán của bạn qua PayPal.</p>
+                </div>
+                
+                <div class="booking-info">
+                    <h4><i class="bi bi-calendar2-check"></i> Chi tiết đặt phòng</h4>
+                    
+                    <div class="booking-info-row">
+                        <div class="booking-info-label">Phòng:</div>
+                        <div class="booking-info-value highlight"><?php echo $room_name; ?></div>
+                    </div>
+                    
+                    <div class="booking-info-row">
+                        <div class="booking-info-label">Số đêm:</div>
+                        <div class="booking-info-value"><?php echo $number_of_nights; ?> đêm</div>
+                    </div>
+                    
+                    <div class="booking-info-row">
+                        <div class="booking-info-label">Nhận phòng:</div>
+                        <div class="booking-info-value"><?php echo date('d/m/Y', strtotime($check_in)); ?></div>
+                    </div>
+                    
+                    <div class="booking-info-row">
+                        <div class="booking-info-label">Trả phòng:</div>
+                        <div class="booking-info-value"><?php echo date('d/m/Y', strtotime($check_out)); ?></div>
+                    </div>
+                    
+                    <div class="booking-info-row">
+                        <div class="booking-info-label">Tổng thanh toán:</div>
+                        <div class="booking-info-value price"><?php echo $formatted_total; ?> VND</div>
+                    </div>
+                </div>
+                
+                <div class="payment-info">
+                    <h4><i class="bi bi-credit-card-2-front"></i> Thông tin thanh toán</h4>
+                    
+                    <div class="payment-info-row">
+                        <div class="payment-info-label">Phương thức:</div>
+                        <div class="payment-info-value">PayPal</div>
+                    </div>
+                    
+                    <div class="payment-info-row">
+                        <div class="payment-info-label">Mã giao dịch:</div>
+                        <div class="payment-info-value"><?php echo $transactionId; ?></div>
+                    </div>
+                    
+                    <div class="payment-info-row">
+                        <div class="payment-info-label">Mã hóa đơn:</div>
+                        <div class="payment-info-value"><?php echo $invoiceId; ?></div>
+                    </div>
+                </div>
+                <?php else: ?>
+                <div class="alert-notification" style="background-color: #f8d7da; border-left-color: #dc3545;">
+                    <i class="bi bi-exclamation-triangle-fill" style="color: #dc3545;"></i>
+                    <p style="color: #721c24;">
+                        Thanh toán không thành công: <?php echo $errorMessage; ?>.
+                        Vui lòng thử lại hoặc chọn phương thức thanh toán khác.
+                    </p>
+                </div>
+                <?php endif; ?>
+                
+                <div class="action-buttons">
+                    <?php if($isSuccess): ?>
+                    <a href="../bookings.php" class="btn-view-bookings">
+                        <i class="bi bi-list-check"></i> Xem đơn đặt phòng
+                    </a>
+                    <?php endif; ?>
+                    <a href="../index.php" class="btn-home" <?php echo !$isSuccess ? 'style="grid-column: span 2;"' : ''; ?>>
+                        <i class="bi bi-house"></i> Về trang chủ
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<?php
+// Xóa session sau khi sử dụng
+if ($isSuccess) {
+    unset($_SESSION['room_name']);
+    unset($_SESSION['number_of_nights']);
+    unset($_SESSION['check_in']);
+    unset($_SESSION['check_out']);
+    unset($_SESSION['room_id']);
+    unset($_SESSION['user_id']);
+    unset($_SESSION['room_price']);
 }
 ?>

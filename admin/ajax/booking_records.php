@@ -29,9 +29,9 @@ if (isset($_POST['get_bookings'])) {
     $total_rows = mysqli_num_rows($res);
 
     if ($total_rows == 0) {
-        // Nếu không tìm thấy dữ liệu, trả về thông báo không có dữ liệu và không có phân trang
+        // Nếu không tìm thấy dữ liệu, trả về thông báo trống và không có phân trang
         $pagination = "";  // Không hiển thị phân trang
-        $table_data = "Không tìm thấy dữ liệu!";
+        $table_data = "<tr><td colspan='6' class='text-center py-5'><h6 class='fw-bold'>Không tìm thấy dữ liệu!</h6></td></tr>";
         
         echo json_encode([
             "table_data" => $table_data,
@@ -44,40 +44,60 @@ if (isset($_POST['get_bookings'])) {
         $checkin = date("d-m-Y", strtotime($data['check_in']));
         $checkout = date("d-m-Y", strtotime($data['check_out']));
 
-        if ($data['booking_status'] == 'booked') {
-            $status_bg = 'bg-success';
-        } else if ($data['booking_status'] == 'cancelled') {
-            $status_bg = 'bg-danger';
-        } else {
-            $status_bg = 'bg-warning text-dark';
+        $status = $data['booking_status'];
+
+        // Add proper status display class
+        $status_class = '';
+        if($status == 'booked') {
+            $status_class = 'booked';
+            $status_text = 'Đã đặt phòng';
+        } else if($status == 'cancelled') {
+            $status_class = 'cancelled';
+            $status_text = 'Đã hủy';
+        } else if($status == 'refunded') {
+            $status_class = 'refunded';
+            $status_text = 'Đã hoàn tiền';
         }
 
         $table_data .= "
         <tr>
             <td>$i</td>
             <td>
-                <span class='badge bg-primary'>Invoice Id: $data[invoice_id]</span>
-                <br>
-                <b>Tên:</b> $data[name]
-                <br>
-                <b>Số Điện Thoại:</b> $data[phonenum]
+                <div class='user-detail-box'>
+                    <div class='detail-title'>Invoice ID:</div>
+                    <div class='detail-content'>$data[invoice_id]</div>
+                    <div class='detail-title mt-2'>Tên khách hàng:</div>
+                    <div class='detail-content'>$data[name]</div>
+                    <div class='detail-title mt-2'>Số điện thoại:</div>
+                    <div class='detail-content'>$data[phonenum]</div>
+                </div>
             </td>
             <td>
-                <b>Phòng:</b> $data[room_name]
-                <br>
-                <b>Giá:</b> " . number_format($data['price']) . " VND
+                <div class='room-detail-box'>
+                    <div class='detail-title'>Tên phòng:</div>
+                    <div class='detail-content'>$data[room_name]</div>
+                    <div class='detail-title mt-2'>Giá phòng:</div>
+                    <div class='detail-content'>" . number_format($data['price']) . " VND</div>
+                </div>
             </td>
             <td>
-                <b>Tổng Tiền:</b> " . number_format($data['total_amount']) . " VND
-                <br>
-                <b>Ngày Đặt:</b> $date
+                <div class='booking-detail-box'>
+                    <div class='detail-title'>Tổng tiền:</div>
+                    <div class='detail-content'>" . number_format($data['total_amount']) . " VND</div>
+                    <div class='detail-title mt-2'>Ngày đặt:</div>
+                    <div class='detail-content'>$date</div>
+                    <div class='detail-title mt-2'>Check-in:</div>
+                    <div class='detail-content'>$checkin</div>
+                    <div class='detail-title mt-2'>Check-out:</div>
+                    <div class='detail-content'>$checkout</div>
+                </div>
             </td>
             <td>
-                <span class='badge $status_bg '> $data[booking_status]</span>
+                <span data-booking-status='$status' class='booking-status $status_class'>$status_text</span>
             </td>
             <td>
-                <button type='button' onclick='download($data[booking_id])' class='btn btn-outline-success btn-sm fw-bold shadow-none'>
-                    <i class='bi bi-file-earmark-arrow-down-fill'></i>
+                <button type='button' onclick='download($data[booking_id])' class='download-pdf'>
+                    <i class='bi bi-file-earmark-arrow-down-fill'></i> PDF
                 </button>
             </td>
         </tr>

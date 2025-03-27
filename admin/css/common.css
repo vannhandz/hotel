@@ -1,0 +1,35 @@
+/* Common styles for admin panel */
+
+/* Remove underlines from all links */
+a {
+    text-decoration: none !important;
+}
+
+/* Apply proper hover effects without underline */
+a:hover {
+    text-decoration: none !important;
+    color: inherit;
+}
+
+/* Specifically target menu items */
+.nav-link, 
+.dropdown-item,
+.sidebar-link,
+.menu-link {
+    text-decoration: none !important;
+}
+
+/* Make sure Bootstrap doesn't override our settings */
+.btn, .btn-link {
+    text-decoration: none !important;
+}
+
+/* For any links inside tables */
+table a {
+    text-decoration: none !important;
+}
+
+/* For link buttons */
+a.btn {
+    text-decoration: none !important;
+} 
