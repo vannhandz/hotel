@@ -1,34 +1,44 @@
 <?php
+// Ngăn chặn việc include file nhiều lần
+if (defined('DB_CONFIG_INCLUDED')) {
+    return;
+}
+define('DB_CONFIG_INCLUDED', true);
 
-    $hname='localhost';
-    $unam='root';
-    $pass='';
-    $db='hotel';
+$hname='localhost';
+$unam='root';
+$pass='';
+$db='hotel';
 
-    $con =mysqli_connect($hname,$unam,$pass,$db);
-    if(!$con){
-        die("Cannot connect to Database".mysqli_connect_error());
-    }
+$con =mysqli_connect($hname,$unam,$pass,$db);
+if(!$con){
+    die("Cannot connect to Database".mysqli_connect_error());
+}
 
-    //lam sach du lieu
+// Chỉ khai báo hàm khi chưa tồn tại
+if (!function_exists('filteration')) {
     function filteration($data){
         foreach($data as $key=>$value){
             $value = trim($value);
             $value = stripslashes($value);
             $value = htmlspecialchars($value);
-            $value  = strip_tags($value);
+            $value = strip_tags($value);
 
-            $data[$key]=$value ;
+            $data[$key]=$value;
         }
         return $data;
     }
+}
 
+if (!function_exists('selectAll')) {
     function selectAll($table){
         $con=$GLOBALS['con'];
         $res=mysqli_query($con,"SELECT * FROM $table");
         return $res;
     }
-    // kiem tra usse pas
+}
+
+if (!function_exists('select')) {
     function select($sql, $values, $datatypes)
     {
         $con=$GLOBALS['con'];
@@ -39,7 +49,6 @@
                 $res=mysqli_stmt_get_result($stmt);
                 mysqli_stmt_close($stmt);
                 return $res;
-
             }
             else {
                 mysqli_stmt_close($stmt);
@@ -49,28 +58,35 @@
             die("Query failed");
         }
     }
+}
 
-    // update seting
-    function update($sql, $values, $datatypes)
+if (!function_exists('update')) {
+    function update($query, $values, $datatypes)
     {
-        $con=$GLOBALS['con'];
-        if($stmt=mysqli_prepare($con, $sql))
+        $con = $GLOBALS['con'];
+        if($stmt = mysqli_prepare($con, $query))
         {
-            mysqli_stmt_bind_param($stmt,$datatypes,...$values);
-            if(mysqli_stmt_execute($stmt)){
-                $res=mysqli_stmt_affected_rows($stmt);
+            mysqli_stmt_bind_param($stmt, $datatypes, ...$values);
+            if(mysqli_stmt_execute($stmt))
+            {
+                $res = mysqli_stmt_affected_rows($stmt);
                 mysqli_stmt_close($stmt);
                 return $res;
             }
-            else {
+            else
+            {
                 mysqli_stmt_close($stmt);
-                die("Update failed");
+                return false;
             }
-        }else{
-            die("Update failed");
+        }
+        else
+        {
+            return false;
         }
     }
+}
 
+if (!function_exists('insert')) {
     function insert($sql, $values, $datatypes)
     {
         $con=$GLOBALS['con'];
@@ -90,10 +106,9 @@
             die("Insert failed");
         }
     }
+}
 
-   
-    
-
+if (!function_exists('delete')) {
     function delete($sql, $values, $datatypes)
     {
         $con=$GLOBALS['con'];
@@ -113,4 +128,5 @@
             die("Delete failed");
         }
     }
+}
 ?>

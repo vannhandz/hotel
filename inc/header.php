@@ -103,7 +103,7 @@
                         <button type="submit" class="btn custom-bg text-white shadow-none rounded-pill px-4 py-2">
                             <i class="bi bi-box-arrow-in-right me-1"></i>Đăng Nhập
                         </button>
-                        <a href="#" class="text-secondary text-decoration-none">Quên mật khẩu?</a>
+                        <a href="forgot_password.php" class="text-secondary text-decoration-none">Quên mật khẩu?</a>
                     </div>
                 </div>
             </form>

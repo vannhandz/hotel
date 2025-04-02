@@ -170,7 +170,7 @@
                                 <i class="bi bi-rulers"></i> Diện Tích
                             </h3>
                             <span class="area-pill">
-                                <i class="bi bi-square"></i> <?php echo $room_data['area'] ?> sq. ft
+                                <i class="bi bi-square"></i> <?php echo $room_data['area'] ?> m2
                             </span>
                         </div>
 

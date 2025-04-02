@@ -138,7 +138,7 @@
                                 </div>
                             </div>';
                         } 
-                        else if($data['payment_method'] == 'bank_transfer') {
+                        else if($data['payment_method'] == 'vnpay') {
                             $payment_method = '<div class="booking-details-item">
                                 <div class="booking-details-label">Thanh toán</div>
                                 <div class="booking-details-value">

@@ -10,7 +10,19 @@
 
 <link rel="stylesheet" href="css/style.css">
 
-    
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- CSS tùy chỉnh -->
+<link rel="stylesheet" href="css/common.css">
+<style>
+    :root{
+        --teal:#2ec1ac;
+        --teal_hover: #279e8c;
+        --dark-text: #020202;
+    }
+</style>
+
 <?php
     session_start();
     require('admin/inc/db_config.php');

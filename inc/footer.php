@@ -105,7 +105,7 @@
 
 <script>
     function alert(type, msg,position='body') {
-        let bs_class = (type == 'success') ? 'alert-success' : 'alert-danger ';
+        let bs_class = (type == 'success') ? 'alert-success' : (type == 'warning') ? 'alert-warning' : 'alert-danger ';
         let element = document.createElement('div');
         element.innerHTML = `
             <div class="alert ${bs_class} alert-dismissible fade show " role="alert">
@@ -146,6 +146,7 @@
     }
 
     let register_form = document.getElementById('register-form');
+    let login_form = document.getElementById('login-form');
 
     register_form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -158,40 +159,53 @@
         data.append('pass', register_form.elements['pass'].value);
         data.append('cpass', register_form.elements['cpass'].value);
         data.append('register', '');
+
         var myModal = document.getElementById('registerModal');
         var modal = bootstrap.Modal.getInstance(myModal);
-
-        modal.hide();
 
         let xhr = new XMLHttpRequest();
         xhr.open("POST", "ajax/login_register.php", true);
 
         xhr.onload = function() {
+            var myModalEl = document.getElementById('registerModal')
+            var modal = bootstrap.Modal.getInstance(myModalEl);
+            
             if (this.responseText == 'pass_mismatch') {
-                alert('error', "Mật khẩu không khớp!");
+                alert('error', 'Mật khẩu không khớp!');
             } else if (this.responseText == 'email_already') {
-                alert('error', "Email đã được đăng ký!");
+                alert('error', 'Email đã tồn tại!');
             } else if (this.responseText == 'phone_already') {
-                alert('error', "Số điện thoại đã được đăng ký!");
-            } else if (this.responseText == 'inv_img') {
-                alert('error', "Chỉ cho phép hình ảnh JPG, WEBP & PNG!");
-            } else if (this.responseText == 'upd_failed') {
-                alert('error', "Tải hình ảnh lên không thành công!");
-            } else if (this.responseText == 'mail_failed') {
-                alert('error', "Không thể gửi email xác nhận!");
+                alert('error', 'Số điện thoại đã tồn tại!');
             } else if (this.responseText == 'ins_failed') {
-                alert('error', "Đăng ký không thành công!");
-            } else {
-                alert('success', "Đăng ký thành công.");
+                alert('error', 'Đăng ký không thành công! Vui lòng thử lại.');
+            } else if (this.responseText == 'email_sent') {
+                // Đóng modal đăng ký
+                modal.hide();
+                // Hiển thị thông báo thành công và hướng dẫn xác thực email
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Đăng ký thành công!',
+                    text: 'Chúng tôi đã gửi email xác thực đến địa chỉ email của bạn. Vui lòng kiểm tra hộp thư (và thư mục spam) để xác thực tài khoản.',
+                    confirmButtonColor: '#2ec1ac',
+                    confirmButtonText: 'Đã hiểu'
+                });
+                register_form.reset();
+            } else if (this.responseText == 'mail_failed') {
+                // Đóng modal đăng ký
+                modal.hide();
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Đăng ký thành công!',
+                    html: 'Tài khoản đã được tạo, nhưng không thể gửi email xác thực. <br><a href="resend_verification.php">Nhấn vào đây</a> để yêu cầu gửi lại email xác thực.',
+                    confirmButtonColor: '#2ec1ac',
+                    confirmButtonText: 'Đã hiểu'
+                });
                 register_form.reset();
             }
-        };
+        }
 
         xhr.send(data);
-
     });
-
-    let login_form = document.getElementById('login-form');
 
     login_form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -200,41 +214,35 @@
 
         data.append('email_mob', login_form.elements['email_mob'].value);
         data.append('pass', login_form.elements['pass'].value);
-
-      
         data.append('login', '');
+
         var myModal = document.getElementById('loginModal');
         var modal = bootstrap.Modal.getInstance(myModal);
 
-        modal.hide();
         let xhr = new XMLHttpRequest();
         xhr.open("POST", "ajax/login_register.php", true);
 
         xhr.onload = function() {
-            console.log(this.responseText);  // Add this line to see the response
-            if(this.responseText == 'inv_email_mob') {
-                alert('error', "Email hoặc số điện thoại di động không hợp lệ!");
-            } else if(this.responseText == 'not_verified') {
-                alert('error', "Email chưa được xác minh!");
-            } else if(this.responseText == 'inactive') {
-                alert('error', "Tài khoản bị đình chỉ! Vui lòng liên hệ với quản trị viên.");
-            } else if(this.responseText == 'invalid_pass') {
-                alert('error', "Mật khẩu sai!");
+            if (this.responseText == 'inv_email_mob') {
+                alert('error', 'Email hoặc số điện thoại không hợp lệ!');
+            } else if (this.responseText == 'not_verified') {
+                // Hiển thị thông báo tài khoản chưa xác thực
+                alert('warning', 'Tài khoản chưa được xác thực. Vui lòng kiểm tra email để xác thực tài khoản hoặc <a href="resend_verification.php">nhấn vào đây</a> để gửi lại email xác thực.');
+            } else if (this.responseText == 'inactive') {
+                alert('error', 'Tài khoản đã bị khóa!');
+            } else if (this.responseText == 'invalid_pass') {
+                alert('error', 'Sai mật khẩu!');
             } else {
-                alert('success', "Đăng nhập thành công");
                 let fileurl = window.location.href.split('/').pop().split('?').shift();
                 if (fileurl == 'room_details.php') {
                     window.location = window.location.href;
-                }else{
+                } else {
                     window.location = window.location.pathname;
                 }
-              
             }
-        };
-
+        }
 
         xhr.send(data);
-
     });
 
     function checkLoginToBook(status, room_id) {
