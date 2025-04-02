@@ -80,6 +80,8 @@ if($isValidSignature && $isSuccess && $isValidAmount) {
     mysqli_stmt_close($stmt);
 }
 
+// Format số tiền để hiển thị
+$formatted_total = number_format($total_amount, 0, ',', '.');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -88,14 +90,17 @@ if($isValidSignature && $isSuccess && $isValidAmount) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kết quả thanh toán VNPAY</title>
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/bank_success.css">
+    <link rel="stylesheet" href="../css/success.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 </head>
 <body>
-    <div class="bank-success-container">
-        <div class="bank-success-card">
-            <div class="bank-success-header" style="background-color: <?php echo $isSuccess ? '#28a745' : '#dc3545'; ?>;">
+    <div class="success-container">
+        <div class="success-card">
+            <div class="success-header" style="background-color: <?php echo $isSuccess ? '#28a745' : '#dc3545'; ?>;">
+                <div class="success-icon">
+                    <i class="bi <?php echo $isSuccess ? 'bi-check-circle' : 'bi-x-circle'; ?>"></i>
+                </div>
                 <h2><?php echo $isSuccess ? 'Thanh Toán Thành Công' : 'Thanh Toán Thất Bại'; ?></h2>
                 <div class="subheading">
                     <?php echo $isSuccess ? 'Đơn đặt phòng của bạn đã được xác nhận' : 'Đã xảy ra lỗi trong quá trình thanh toán'; ?>
@@ -104,9 +109,9 @@ if($isValidSignature && $isSuccess && $isValidAmount) {
             
             <div class="card-body p-4">
                 <?php if($isSuccess): ?>
-                <div class="alert-notification" style="background-color: #d4edda; border-left-color: #28a745;">
-                    <i class="bi bi-check-circle-fill" style="color: #28a745;"></i>
-                    <p style="color: #155724;">Cảm ơn bạn đã đặt phòng. Chúng tôi đã nhận được thanh toán của bạn.</p>
+                <div class="alert-notification">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <p>Cảm ơn bạn đã đặt phòng. Chúng tôi đã nhận được thanh toán của bạn qua VNPAY.</p>
                 </div>
                 
                 <div class="booking-info">
@@ -138,13 +143,27 @@ if($isValidSignature && $isSuccess && $isValidAmount) {
                     </div>
                     
                     <div class="booking-info-row">
-                        <div class="booking-info-label">Mã giao dịch:</div>
-                        <div class="booking-info-value"><?php echo $transactionNo; ?></div>
+                        <div class="booking-info-label">Tổng thanh toán:</div>
+                        <div class="booking-info-value price"><?php echo $formatted_total; ?> VND</div>
+                    </div>
+                </div>
+                
+                <div class="payment-info">
+                    <h4><i class="bi bi-credit-card-2-front"></i> Thông tin thanh toán</h4>
+                    
+                    <div class="payment-info-row">
+                        <div class="payment-info-label">Phương thức:</div>
+                        <div class="payment-info-value">VNPAY</div>
                     </div>
                     
-                    <div class="booking-info-row">
-                        <div class="booking-info-label">Tổng thanh toán:</div>
-                        <div class="booking-info-value price"><?php echo number_format($total_amount, 0, ',', '.'); ?> VND</div>
+                    <div class="payment-info-row">
+                        <div class="payment-info-label">Mã giao dịch:</div>
+                        <div class="payment-info-value"><?php echo $transactionNo; ?></div>
+                    </div>
+                    
+                    <div class="payment-info-row">
+                        <div class="payment-info-label">Ngày thanh toán:</div>
+                        <div class="payment-info-value"><?php echo date('d/m/Y H:i:s'); ?></div>
                     </div>
                 </div>
                 <?php else: ?>
