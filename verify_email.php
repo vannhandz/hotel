@@ -39,7 +39,7 @@ else {
             show_message("Tài khoản đã xác thực!", 
                         "Tài khoản này đã được xác thực trước đó. Bạn có thể đăng nhập ngay bây giờ.", 
                         "success", 
-                        "login.php", 
+                        "index.php", 
                         "Đăng nhập ngay");
         }
         // Kiểm tra token có hết hạn không
@@ -60,7 +60,7 @@ else {
                 show_message("Xác thực thành công!", 
                            "Tài khoản của bạn đã được xác thực thành công. Bạn có thể đăng nhập ngay bây giờ.", 
                            "success", 
-                           "login.php", 
+                           "index.php", 
                            "Đăng nhập ngay");
             }
             else {

@@ -236,8 +236,10 @@
                 let fileurl = window.location.href.split('/').pop().split('?').shift();
                 if (fileurl == 'room_details.php') {
                     window.location = window.location.href;
+                    alert('success', 'Đăng nhập thành công');
                 } else {
                     window.location = window.location.pathname;
+                    alert('success', 'Đăng nhập thành công');
                 }
             }
         }

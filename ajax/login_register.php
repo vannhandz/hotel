@@ -85,7 +85,7 @@
                     $_SESSION['uId'] = $u_fetch['id'];
                     $_SESSION['uName'] = $u_fetch['name'];
                     $_SESSION['uPhone'] = $u_fetch['phonenum'];
-                    echo 1;
+                    
                 }
             }
         }
