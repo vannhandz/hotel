@@ -253,4 +253,5 @@ $page_title = "Đặt lại mật khẩu";
         });
     </script>
 </body>
+<?php require('chat.php') ?>
 </html> 

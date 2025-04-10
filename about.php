@@ -138,7 +138,9 @@
         window.addEventListener('load', animateOnScroll);
         // Check on scroll
         window.addEventListener('scroll', animateOnScroll);
+        
     </script>
+     <?php require('chat.php') ?>
 </body>
 
 </html>

@@ -46,13 +46,15 @@ require('inc/db_config.php');
         $values = [$frm_data['admin_name'], $frm_data['admin_pass']];
 
         $res = select($query, $values, "ss");
+        
         if ($res->num_rows == 1) {
            $row=mysqli_fetch_assoc($res);
            $_SESSION['adminLogin']=true;
            $_SESSION['adminId']=$row['admin_id'];
             redirect('dashboard.php');
+            
         } else {
-           alert('error','Login failed - Invalid Credentials!');
+           alert('error','Thông tin không chính xác');
         }
     }
     ?>

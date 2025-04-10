@@ -249,6 +249,7 @@
     </script>
 
     <?php require('inc/footer.php') ?>
+    <?php require('chat.php') ?>
 
 </body>
 </html>

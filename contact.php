@@ -115,7 +115,7 @@
             }
         } 
     ?>
-
+ <?php require('chat.php') ?>
 </body>
 
 </html>

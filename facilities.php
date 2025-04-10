@@ -161,6 +161,7 @@
             document.head.appendChild(style);
         });
     </script>
+     <?php require('chat.php') ?>
 </body>
 
 </html>

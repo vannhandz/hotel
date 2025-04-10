@@ -395,5 +395,5 @@
     </script>
 
 </body>
-
+<?php require('chat.php') ?>
 </html>

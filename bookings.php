@@ -359,7 +359,7 @@
         xhr.send(data);
     });
     </script>
-
+ <?php require('chat.php') ?>
 </body>
 
 </html>

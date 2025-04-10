@@ -136,5 +136,6 @@ function show_message($title, $message, $type, $redirect_url, $button_text = "Vá
 
     <!-- Footer -->
     <?php require('inc/footer.php'); ?>
+    <?php require('chat.php') ?>
 </body>
 </html> 
