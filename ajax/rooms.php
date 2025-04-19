@@ -36,11 +36,17 @@
         // facilities data decode
         $facility_list = json_decode($_GET['facility_list'],true);
 
-        $count_rooms=0;
-        $output="";
+        // Pagination parameters
+        $limit = 3; // Number of rooms per page
+        $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+        $offset = ($page - 1) * $limit;
 
-        $settings_q="SELECT * FROM `settings` WHERE `id_setting`=1";
-        $settings_r=mysqli_fetch_assoc(mysqli_query($con,$settings_q));
+        $count_rooms = 0;
+        $output = "";
+        $all_rooms = array(); // Array to store all matching rooms
+
+        $settings_q = "SELECT * FROM `settings` WHERE `id_setting`=1";
+        $settings_r = mysqli_fetch_assoc(mysqli_query($con,$settings_q));
 
         $room_res = select("SELECT * FROM `rooms` WHERE `adult` >= ? AND `children` >= ? AND `status`=? AND `removed`=? ", [$adults,$children,1, 0], 'iiii');
 
@@ -81,11 +87,23 @@
                 }
             }
 
-            if (count($facility_list['facilities']) != $fac_count) {
+            if (count($facility_list['facilities']) != $fac_count && !empty($facility_list['facilities'])) {
                 continue;
             }
 
+            // This room matches all criteria, add to array
+            $all_rooms[] = $room_data;
+            $count_rooms++;
+        }
 
+        // Get total pages
+        $total_pages = ceil($count_rooms / $limit);
+        
+        // Get the rooms for the current page
+        $paged_rooms = array_slice($all_rooms, $offset, $limit);
+        
+        // Generate output for matching rooms
+        foreach($paged_rooms as $room_data) {
             // get features of room
             $fea_q = mysqli_query($con, "SELECT f.name FROM `features` f
                     INNER JOIN `room_features` rfea ON f.id = rfea.features_id
@@ -96,7 +114,15 @@
                 $features_data .= "<span class='badge rounded-pill bg-light text-dark text-wrap me-1 mb-1'>$fea_row[name]</span>";
             }
 
-           
+            // get facilities for display
+            $fac_q = mysqli_query($con, "SELECT f.name FROM `facilities` f
+            INNER JOIN `room_facilities` rfac ON f.id = rfac.facilities_id
+            WHERE rfac.room_id = '$room_data[id]' ");
+
+            $facilities_data = "";
+            while ($fac_row = mysqli_fetch_assoc($fac_q)) {
+                $facilities_data .= "<span class='badge rounded-pill bg-light text-dark text-wrap me-1 mb-1'>$fac_row[name]</span>";
+            }
 
             // get thumbnail of image
             $room_thumb = ROOMS_IMG_PATH . "thumb.png";
@@ -200,11 +226,47 @@
                     </div>
                 </div>
             ";
-            $count_rooms++;
         }
 
         if ($count_rooms > 0) {
-            echo $output;
+            // Add pagination controls
+            $pagination = "";
+            if ($total_pages > 1) {
+                $pagination .= "<div class='pagination-container mt-4'>";
+                $pagination .= "<nav aria-label='Page navigation'>";
+                $pagination .= "<ul class='pagination justify-content-center'>";
+                
+                // Previous button
+                $prev_disabled = ($page <= 1) ? 'disabled' : '';
+                $pagination .= "<li class='page-item $prev_disabled'><a class='page-link' href='javascript:void(0)' onclick='changePage(" . ($page - 1) . ")' aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>";
+                
+                // Page numbers
+                $start_page = max(1, $page - 2);
+                $end_page = min($total_pages, $page + 2);
+                
+                for ($i = $start_page; $i <= $end_page; $i++) {
+                    $active = ($i == $page) ? 'active' : '';
+                    $pagination .= "<li class='page-item $active'><a class='page-link' href='javascript:void(0)' onclick='changePage($i)'>$i</a></li>";
+                }
+                
+                // Next button
+                $next_disabled = ($page >= $total_pages) ? 'disabled' : '';
+                $pagination .= "<li class='page-item $next_disabled'><a class='page-link' href='javascript:void(0)' onclick='changePage(" . ($page + 1) . ")' aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>";
+                
+                $pagination .= "</ul>";
+                $pagination .= "</nav>";
+                $pagination .= "</div>";
+            }
+            
+            // Summary of results
+            $start_result = min($offset + 1, $count_rooms);
+            $end_result = min($offset + $limit, $count_rooms);
+            
+            $summary = "<div class='result-summary text-center mb-3'>";
+          
+            $summary .= "</div>";
+            
+            echo $summary . $output . $pagination;
         } else {
             echo "<h3 class='text-center text-danger'>Không có phòng để hiển thị!</h3>";
         }

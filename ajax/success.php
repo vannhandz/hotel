@@ -72,10 +72,10 @@ try {
 
         // Thực hiện lưu vào DB    
         $booking_saved = mysqli_stmt_execute($stmt);
-        
+
         // Đóng statement
         mysqli_stmt_close($stmt);
-        
+
         // Format số tiền
         $formatted_total = number_format($total, 0, ',', '.');
     } else {

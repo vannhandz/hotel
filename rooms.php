@@ -156,9 +156,11 @@
         let children = document.getElementById('children');
         let guests_btn = document.getElementById('guests_btn');
         let facilities_btn = document.getElementById('facilities_btn');
+        let current_page = 1;
 
-        function fetch_rooms()
+        function fetch_rooms(page = 1)
         {
+            current_page = page;
             let chk_avail = JSON.stringify({
                 checkin: checkin.value,
                 checkout: checkout.value
@@ -185,11 +187,11 @@
             facility_list = JSON.stringify(facility_list);
 
             let xhr = new XMLHttpRequest();
-            xhr.open("GET", "ajax/rooms.php?fetch_rooms&chk_avail="+chk_avail+"&guests="+guests+"&facility_list="+facility_list, true);
+            xhr.open("GET", "ajax/rooms.php?fetch_rooms&page=" + page + "&chk_avail="+chk_avail+"&guests="+guests+"&facility_list="+facility_list, true);
 
             xhr.onprogress = function(){
                 room_data.innerHTML = `
-                    <div class="d-flex justify-content-center align-items-center" style="height: 40vh;">
+                    <div class="spinner-container">
                         <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
                             <span class="visually-hidden">Loading...</span>
                         </div>
@@ -199,14 +201,25 @@
             
             xhr.onload = function(){
                 room_data.innerHTML = this.responseText;
+                
+                // Scroll to the top of the rooms section when changing pages
+                if(page > 1) {
+                    document.getElementById('rooms-data').scrollIntoView({behavior: 'smooth'});
+                }
             }
 
             xhr.send();
         }
 
+        function changePage(page) {
+            if(page !== current_page) {
+                fetch_rooms(page);
+            }
+        }
+
         function chk_avail_filter() {
             if (checkin.value != '' && checkout.value != '') {
-                fetch_rooms();
+                fetch_rooms(1); // Reset to page 1 when filter changes
                 chk_avail_btn.classList.remove('d-none');
             }
         }
@@ -215,12 +228,12 @@
             checkin.value = '';
             checkout.value = '';
             chk_avail_btn.classList.add('d-none');
-            fetch_rooms();
+            fetch_rooms(1); // Reset to page 1
         }
 
         function guests_filter() {
             if(adults.value > 0 || children.value > 0) {
-                fetch_rooms();
+                fetch_rooms(1); // Reset to page 1 when filter changes
                 guests_btn.classList.remove('d-none');
             }
         }
@@ -229,7 +242,7 @@
             adults.value = '';
             children.value = '';
             guests_btn.classList.add('d-none');
-            fetch_rooms();
+            fetch_rooms(1); // Reset to page 1
         }
                         
         function facilities_clear() {
@@ -240,7 +253,7 @@
             });
 
             facilities_btn.classList.add('d-none');
-            fetch_rooms();
+            fetch_rooms(1); // Reset to page 1
         }
 
         window.onload = function() {
