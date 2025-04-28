@@ -1,8 +1,15 @@
 # Hệ Thống Đặt Phòng Khách Sạn
 
+
+
 Một hệ thống quản lý đặt phòng khách sạn toàn diện được xây dựng bằng PHP và MySQL, cho phép người dùng duyệt, đặt và thanh toán phòng khách sạn trực tuyến.
 
-## Tính Năng
+## 📌 Repository
+
+- **GitHub**: [https://github.com/vannhandz/hotel.git](https://github.com/vannhandz/hotel.git)
+- **Ngôn ngữ**: PHP (65.0%), CSS (27.4%), JavaScript (6.4%), Hack (1.2%)
+
+## ✨ Tính Năng
 
 - **Quản Lý Người Dùng**: Đăng ký, đăng nhập, xác minh email và khôi phục mật khẩu
 - **Duyệt Phòng**: Xem các loại phòng, chi tiết, đặc điểm và tiện nghi
@@ -13,31 +20,41 @@ Một hệ thống quản lý đặt phòng khách sạn toàn diện được x
 - **Thiết Kế Responsive**: Giao diện thân thiện với thiết bị di động
 - **Bảng Quản Trị Admin**: Hệ thống quản lý backend đầy đủ
 
-## Công Nghệ Sử Dụng
+## 🛠️ Công Nghệ Sử Dụng
 
-- **Backend**: PHP, MySQL
-- **Frontend**: HTML, CSS, JavaScript, Bootstrap
-- **Xử Lý Thanh Toán**: VNPay, PayPal API
-- **Tạo PDF**: Thư viện mPDF
-- **Dịch Vụ Email**: SMTP cho thông báo qua email
+- **Backend**: PHP 7.4+, MySQL 5.7+
+- **Frontend**: HTML5, CSS3, JavaScript, Bootstrap 5
+- **Xử Lý Thanh Toán**: 
+  - VNPay API cho thanh toán nội địa
+  - PayPal REST API SDK cho thanh toán quốc tế
+- **Tạo PDF**: Thư viện mPDF 8.2+ để xuất hóa đơn và báo cáo
+- **Dịch Vụ Email**: 
+  - SMTP (Simple Mail Transfer Protocol) để gửi email thông báo
+  - Hỗ trợ kết nối SMTP với Gmail, Outlook hoặc các dịch vụ email khác
+  - Sử dụng để gửi xác minh đăng ký, khôi phục mật khẩu 
 
-## Cài Đặt
+## 🚀 Cài Đặt
 
-1. Clone repository
-2. Import cấu trúc cơ sở dữ liệu
-3. Cấu hình kết nối cơ sở dữ liệu trong `inc/db_config.php`
-4. Thiết lập cấu hình email cho chức năng khôi phục mật khẩu
-5. Cấu hình thông tin cổng thanh toán
+1. Clone repository:
+   ```bash
+   git clone https://github.com/vannhandz/hotel.git
+   ```
 
-## Cấu Hình
+2. Cài đặt các gói phụ thuộc qua Composer:
+   ```bash
+   composer install
+   ```
 
-Cập nhật các tệp sau với cài đặt cụ thể của bạn:
+3. Import cơ sở dữ liệu:
+   - Tạo một database mới trong MySQL
+   - Import file `hotel.sql` vào database đó:
+   ```bash
+   mysql -u username -p your_database_name < hotel.sql
+   ```
+   - Hoặc sử dụng phpMyAdmin để import file SQL
 
-- `inc/db_config.php`: Chi tiết kết nối cơ sở dữ liệu
-- `inc/constants.php`: URL trang web và các hằng số khác
-- Thông tin đăng nhập cổng thanh toán trong các tệp liên quan
 
-## Cấu Trúc Dự Án
+## 📂 Cấu Trúc Dự Án
 
 - `/admin`: Bảng quản trị cho việc quản lý phòng, đặt phòng, người dùng, v.v.
 - `/ajax`: Xử lý AJAX cho các yêu cầu bất đồng bộ
@@ -47,27 +64,38 @@ Cập nhật các tệp sau với cài đặt cụ thể của bạn:
 - `/images`: Thư mục chứa hình ảnh
 - `/vendor`: Các thư viện Composer
 
-## Giải Thích Tính Năng Chính
+## 🔍 Giải Thích Tính Năng Chính
 
 ### Quy Trình Đặt Phòng
+
 1. Người dùng kiểm tra tình trạng phòng trống bằng cách chọn ngày và số lượng khách
 2. Các phòng có sẵn được hiển thị dựa trên tiêu chí
 3. Người dùng chọn phòng và tiến hành đặt
 4. Thanh toán được xử lý qua VNPay hoặc PayPal
-5. Xác nhận được gửi qua email
+5. Xác nhận được gửi qua email với chi tiết đơn đặt phòng
 
 ### Khôi Phục Mật Khẩu
+
 Hệ thống bao gồm quy trình khôi phục mật khẩu an toàn:
+
 1. Người dùng yêu cầu đặt lại mật khẩu
-2. Một mã thông báo có thời hạn được tạo và gửi qua email
+2. Một mã thông báo có thời hạn (30 phút) được tạo và gửi qua email
 3. Người dùng nhấp vào liên kết và đặt mật khẩu mới
+4. Hệ thống xác thực tính hợp lệ của token trước khi cho phép đặt lại mật khẩu
 
 ### Khả Năng Quản Trị
-- Quản lý phòng, tính năng và tiện nghi
-- Xử lý đặt phòng và thanh toán
-- Xem báo cáo và thống kê
-- Quản lý tài khoản người dùng
 
-## Tác Giả
+- **Quản lý phòng**: Thêm, sửa, xóa phòng và quản lý các tiện nghi
+- **Quản lý đặt phòng**: Xem, xác nhận, hủy đơn đặt phòng
+- **Báo cáo doanh thu**: Xem thống kê doanh thu theo ngày, tháng, năm
+- **Quản lý người dùng**: Xem và quản lý tài khoản người dùng
+- **Cấu hình trang web**: Tùy chỉnh thông tin và hình ảnh hiển thị trên trang web
 
-Phát triển bởi Vân Nhàn 
+## 🚦 Trạng thái dự án
+
+Dự án đang được phát triển và hoàn thiện. Các tính năng mới sẽ được cập nhật thường xuyên.
+
+## 👨‍💻 Tác Giả
+
+Phát triển bởi Vân Nhân
+
