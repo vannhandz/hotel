@@ -15,7 +15,7 @@ if(!$con){
     die("Cannot connect to Database".mysqli_connect_error());
 }
 
-// Chỉ khai báo hàm khi chưa tồn tại
+// lọc và làm sạch dữ liệu đầu vào
 if (!function_exists('filteration')) {
     function filteration($data){
         foreach($data as $key=>$value){

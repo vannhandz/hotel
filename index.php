@@ -105,7 +105,7 @@
         </div>
     </div>
 
-    <!-- Our rooms section -->
+    <!-- Room  -->
     <div class="container py-5">
         <h2 class="section-title text-center h-font mb-4">Các Loại Phòng</h2>
         <div class="row">
@@ -113,7 +113,7 @@
             $room_res = select("SELECT * FROM `rooms` WHERE `status`=? AND `removed`=? ORDER BY `id` DESC LIMIT 3 ", [1, 0], 'ii');
 
             while ($room_data = mysqli_fetch_assoc($room_res)) {
-                // get features of room
+                // tính năng của phòng
                 $fea_q = mysqli_query($con, "SELECT f.name FROM `features` f
                         INNER JOIN `room_features` rfea ON f.id = rfea.features_id
                         WHERE rfea.room_id = '$room_data[id]' ");
@@ -123,19 +123,18 @@
                     $features_data .= "<span class='badge rounded-pill me-1 mb-1'>$fea_row[name]</span>";
                 }
 
-                // get facilities of room
+                // tiện ích của phòng
                 $fac_q = mysqli_query($con, "SELECT f.name FROM `facilities` f
                     INNER JOIN `room_facilities` rfac ON f.id = rfac.facilities_id
                     WHERE rfac.room_id = '$room_data[id]' ");
 
                 $facilities_data = "";
-                if ($fac_q) { // Kiểm tra xem truy vấn có thành công không
-                    while ($fac_row = mysqli_fetch_assoc($fac_q)) {
-                        $facilities_data .= "<span class='badge rounded-pill me-1 mb-1'>$fac_row[name]</span>";
-                    }
+                while ($fac_row = mysqli_fetch_assoc($fac_q)) {
+                    $facilities_data .= "<span class='badge rounded-pill me-1 mb-1'>$fac_row[name]</span>";
                 }
+                
 
-                // get thumbnail of image
+                // lấy hình ảnh khi chưa có ảnh phòng
                 $room_thumb = ROOMS_IMG_PATH . "thumb.png";
                 $thumb_q = mysqli_query($con, "SELECT image FROM `room_images`
                                                 WHERE `room_id` = '$room_data[id]'
@@ -146,6 +145,7 @@
                     $room_thumb = ROOMS_IMG_PATH . $thumb_res['image'];
                 }
 
+                // shutdown website
                 $book_btn = "";
 
                 if (!$settings_r['shutdown']) {
@@ -251,7 +251,7 @@
         </div>
     </div>
 
-    <!-- Facilities section -->
+    <!-- Tiện Nghi -->
     <div class="container py-5">
         <h2 class="section-title text-center h-font">Tiện Nghi</h2>
         <div class="row justify-content-evenly g-4">
@@ -276,7 +276,7 @@
         </div>
         </div>
 
-    <!-- Testimonials section -->
+    <!-- Đánh Giá Từ Khách Hàng -->
     <div class="testimonials-section">
         <div class="container">
             <h2 class="section-title text-center h-font">Đánh Giá Từ Khách Hàng</h2>
@@ -426,7 +426,6 @@
     
     <!-- Initialize Swiper -->
         <script>
-        // Hero carousel swiper
         var mainSwiper = new Swiper(".swiper-container", {
             spaceBetween: 0,
             effect: "fade",

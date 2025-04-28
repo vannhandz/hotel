@@ -17,7 +17,7 @@ require('../admin/inc/esentials.php');
             $query_pass = "UPDATE `user_cred` SET `password`=? WHERE `id`=? LIMIT 1";
             $values_pass = [$enc_pass, $_SESSION['uId']];
             $update_pass_result = update($query_pass, $values_pass, 'ss');
-
+            //sql prepared statement câu lệnh có ?
             if (!$update_pass_result) {
                 echo 0; // Cập nhật mật khẩu thất bại
                 exit;

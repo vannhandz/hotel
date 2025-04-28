@@ -53,11 +53,11 @@
 
                 while($row = mysqli_fetch_assoc($res))
                 {
-                    // Get a random image for display purposes (in real implementation, you'd have proper facility images)
+                    // Lấy một hình ảnh ngẫu nhiên cho mục đích hiển thị (trong quá trình triển khai thực tế, bạn sẽ có hình ảnh tiện ích phù hợp)
                     $img_num = ($row['id'] % 5) + 1;
                     $img_path = "images/carousel/" . $img_num . ".png";
                     
-                    // Assign a random category for demo purposes (in real implementation, you'd have proper categories)
+                    // Chỉ định một danh mục ngẫu nhiên cho mục đích demo (trong quá trình triển khai thực tế, bạn sẽ có các danh mục phù hợp)
                     $category = $categories[($row['id'] % 5)];
                     
                     echo<<<data

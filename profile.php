@@ -12,6 +12,7 @@
 
 <body class="bg-light">
 
+    <!-- kiểm tra đã login ch -->
     <?php 
         require('inc/header.php') ;
 

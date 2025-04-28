@@ -34,25 +34,40 @@
         } else {
             session_start();
 
-             // chạy câu truy vấn để kiểm tra phòng còn trống hay không
-
-            $tb_query = "SELECT COUNT(*) AS `total_bookings` FROM `booking_order` 
-                    WHERE booking_status=? AND room_id=?
+            // Bước 1: Kiểm tra xem người dùng đã có đơn đặt phòng nào trong khoảng thời gian này chưa
+            $user_booking_query = "SELECT COUNT(*) AS `user_booking_count` FROM `booking_order` 
+                    WHERE user_id=? AND room_id=?
+                    AND booking_status IN ('booked', 'pending')
                     AND check_out>? AND check_in<?";
 
-            $values = ['booked', $_SESSION['room']['id'], $frm_data['check_in'], $frm_data['check_out']];
-            $tb_fetch = mysqli_fetch_assoc(select($tb_query, $values, 'siss'));
+            $user_values = [$_SESSION['uId'], $_SESSION['room']['id'], $frm_data['check_in'], $frm_data['check_out']];
+            $user_booking = mysqli_fetch_assoc(select($user_booking_query, $user_values, 'iiss'));
 
-            $rq_result = select("SELECT `quantity` FROM `rooms` WHERE id=?", [$_SESSION['room']['id']], 'i');
-            $rq_fetch = mysqli_fetch_assoc($rq_result);
-
-            if (($rq_fetch['quantity'] - $tb_fetch['total_bookings']) == 0) {
-                $status = 'unavailable';
-            
+            // Nếu người dùng đã có đơn đặt phòng cho khoảng thời gian này, trả về lỗi
+            if ($user_booking['user_booking_count'] > 0) {
+                $status = 'already_booked';
                 $result = json_encode(['status' => $status]);
                 echo $result;
                 exit;
             }
+
+            // // Bước 2: Kiểm tra số lượng phòng còn trống với tất cả đơn đặt
+            // $tb_query = "SELECT COUNT(*) AS `total_bookings` FROM `booking_order` 
+            //         WHERE booking_status IN ('booked', 'pending') AND room_id=?
+            //         AND check_out>? AND check_in<?";
+
+            // $values = [$_SESSION['room']['id'], $frm_data['check_in'], $frm_data['check_out']];
+            // $tb_fetch = mysqli_fetch_assoc(select($tb_query, $values, 'iss'));
+
+            // $rq_result = select("SELECT `quantity` FROM `rooms` WHERE id=?", [$_SESSION['room']['id']], 'i');
+            // $rq_fetch = mysqli_fetch_assoc($rq_result);
+
+            // if (($rq_fetch['quantity'] - $tb_fetch['total_bookings']) == 0) {
+            //     $status = 'unavailable';
+            //     $result = json_encode(['status' => $status]);
+            //     echo $result;
+            //     exit;
+            // }
 
         
             $count_days = date_diff($checkin_date, $checkout_date)->days;

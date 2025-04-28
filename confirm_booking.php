@@ -315,22 +315,11 @@
                 xhr.onload = function () {
                     let data = JSON.parse(this.responseText);
 
-                    if (data.status == 'check_in_out_equal') {
-                        pay_info.innerText = "Bạn không thể trả phòng trong cùng một ngày!";
+                   
+                    if (data.status == 'already_booked') {
+                        pay_info.innerText = "Bạn đã đặt phòng này trong khoảng thời gian đã chọn!";
                         payment_info.classList.add('danger');
                         pay_info.classList.add('danger');
-                    } else if (data.status == 'check_out_earlier') {
-                        pay_info.innerText = "Ngày trả phòng sớm hơn ngày nhận phòng!";
-                        payment_info.classList.add('danger');
-                        pay_info.classList.add('danger');
-                    } else if (data.status == 'check_in_earlier') {
-                        pay_info.innerText = "Ngày nhận phòng sớm hơn ngày hôm nay!";
-                        payment_info.classList.add('danger');
-                        pay_info.classList.add('danger');
-                    } else if (data.status == 'unavailable') {
-                        pay_info.innerText = "Phòng đã được đặt trong thời gian này";
-                        payment_info.classList.add('warning');
-                        pay_info.classList.add('warning');
                     } else {
                         pay_info.innerHTML = "<i class='bi bi-calendar-check me-2'></i> Số ngày: <span class='fw-bold'>" + data.days + "</span> đêm<br><i class='bi bi-cash-coin me-2'></i> Tổng thanh toán: <span class='fw-bold'>" + data.payment.toLocaleString('vi-VN') + " VND</span>";
                         payment_info.classList.add('success');

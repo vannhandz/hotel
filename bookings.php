@@ -14,7 +14,6 @@
 
     <?php 
         require('inc/header.php') ;
-
         if (!(isset($_SESSION['login']) && $_SESSION['login'] == true)) {
             redirect('index.php');
         }
@@ -35,6 +34,7 @@
         </div>
     </div>
 
+     <!-- chi tiet dat phong -->
     <div class="container booking-container">
         <div class="row">
             <?php 
@@ -57,7 +57,7 @@
                     </div>';
                 }
 
-                while ($data=mysqli_fetch_assoc($result)){
+                while ($data=mysqli_fetch_assoc(result: $result)){
 
                     $date = date("d-m-Y", strtotime($data['booking_date']));
                     $checkin = date("d-m-Y", strtotime($data['check_in']));
